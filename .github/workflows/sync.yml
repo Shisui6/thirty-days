@@ -1,0 +1,45 @@
+name: Daily Todoist sync
+
+on:
+  schedule:
+    # 01:00 UTC = 03:00 Berlin in summer, 02:00 in winter. Fine either way —
+    # the sync only reads completions through *yesterday*.
+    - cron: '0 1 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Pull completions from Todoist
+        env:
+          TODOIST_TOKEN_A: ${{ secrets.TODOIST_TOKEN_A }}
+          TODOIST_TOKEN_B: ${{ secrets.TODOIST_TOKEN_B }}
+        run: node scripts/sync.mjs
+
+      - name: Commit new ticks
+        run: |
+          if git diff --quiet public/data/state.json; then
+            echo "No new ticks — nothing to commit."
+            exit 0
+          fi
+          git config user.name "sync-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add public/data/state.json
+          git commit -m "sync: ticks through $(date -u -d yesterday +%F)"
+          git push
+          # Pushes from the workflow token don't fire push-triggered workflows,
+          # so kick the Pages deploy explicitly.
+          gh workflow run deploy.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}
