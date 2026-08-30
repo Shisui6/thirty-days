@@ -1,0 +1,22 @@
+{
+  "name": "thirty-days",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Presentational tracker for a 30-day two-person consistency challenge. Reads a committed dataset; never writes.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "sync": "node scripts/sync.mjs",
+    "import-plan": "node scripts/import-plan.mjs"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.0"
+  }
+}

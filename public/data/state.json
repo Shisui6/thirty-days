@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "start": "2026-09-01",
+  "syncedThrough": "2026-08-27",
+  "ticks": {
+    "d1|1|a": 1,
+    "d1|2|a": 1,
+    "d1|4|a": 1,
+    "d2|1|a": 1,
+    "d2|4|a": 1,
+    "d1|1|b": 1,
+    "d1|3|b": 1,
+    "d1|4|b": 1
+  },
+  "people": {
+    "a": {
+      "name": "Sam"
+    },
+    "b": {
+      "name": "Lena"
+    }
+  },
+  "reality": {
+    "a": {
+      "shape": "9-18, home by 18:30"
+    },
+    "a2": {
+      "best": "the hour before lunch"
+    },
+    "us": {
+      "pattern": "Fri to Sun, varies"
+    },
+    "us2": {
+      "reward": "a weekend away",
+      "rewardWhen": "end of week one"
+    }
+  },
+  "goals": {
+    "a": {
+      "one": "Ship v1 of the side project",
+      "done": "A URL someone else can open"
+    },
+    "b": {
+      "one": "Finish the course",
+      "done": "Certificate in hand"
+    }
+  },
+  "pact": {
+    "rule": "No phones at the table",
+    "wantA": "More warning about plans",
+    "wantB": "More evenings that aren't rushed"
+  },
+  "items": [
+    {
+      "id": 1,
+      "text": "Walk 20 min",
+      "area": "body",
+      "owner": "both",
+      "cadence": "daily",
+      "flex": true,
+      "time": "18:40",
+      "dur": "",
+      "wday": "",
+      "mday": "",
+      "todoistId": null
+    },
+    {
+      "id": 2,
+      "text": "Focused block",
+      "area": "work",
+      "owner": "a",
+      "cadence": "daily",
+      "flex": true,
+      "time": "11:00",
+      "dur": "",
+      "wday": "",
+      "mday": "",
+      "todoistId": null
+    },
+    {
+      "id": 3,
+      "text": "Study block",
+      "area": "work",
+      "owner": "b",
+      "cadence": "daily",
+      "flex": true,
+      "time": "09:30",
+      "dur": "",
+      "wday": "",
+      "mday": "",
+      "todoistId": null
+    },
+    {
+      "id": 4,
+      "text": "A real call",
+      "area": "us",
+      "owner": "both",
+      "cadence": "daily",
+      "flex": false,
+      "time": "21:00",
+      "dur": "",
+      "wday": "",
+      "mday": "",
+      "todoistId": null
+    },
+    {
+      "id": 5,
+      "text": "Weekly reset",
+      "area": "us",
+      "owner": "both",
+      "cadence": "weekly",
+      "flex": true,
+      "time": "19:00",
+      "dur": "",
+      "wday": 0,
+      "mday": "",
+      "todoistId": null
+    },
+    {
+      "id": 6,
+      "text": "Book the dentist",
+      "area": "admin",
+      "owner": "a",
+      "cadence": "monthly",
+      "flex": true,
+      "time": "10:00",
+      "dur": "",
+      "wday": "",
+      "mday": 12,
+      "todoistId": null
+    },
+    {
+      "id": 7,
+      "text": "Learn an instrument",
+      "area": "play",
+      "owner": "b",
+      "cadence": "later",
+      "flex": true,
+      "time": "",
+      "dur": "",
+      "wday": "",
+      "mday": "",
+      "todoistId": null
+    }
+  ],
+  "days": {
+    "3": {
+      "together": true,
+      "note": ""
+    }
+  },
+  "flex": {
+    "1": 5
+  },
+  "resets": {
+    "1": {
+      "missed": "the walk, twice",
+      "moved": "auth flow done",
+      "together": "Fri-Sun",
+      "asks": "warning about plans"
+    }
+  }
+}

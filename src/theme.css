@@ -1,0 +1,751 @@
+:root {
+  --abyss: #092430;
+  --edge: rgba(158, 214, 209, 0.2);
+  --foam: #ecf9f5;
+  --muted: #a6c9c9;
+  --dim: #77a0a6;
+  --sun: #ffc071;
+  --coral: #ff9077;
+  --glass: #5fd9c9;
+  --display: 'Fraunces', Georgia, serif;
+  --body: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(130% 50% at 50% 0%, rgba(255, 144, 119, 0.1), transparent 65%),
+    linear-gradient(180deg, #0d3242 0%, #0b2c39 45%, #092430 100%);
+  background-attachment: fixed;
+  color: var(--foam);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 470px;
+  margin: 0 auto;
+  padding: 0 15px 60px;
+}
+
+/* 720–960px: the phone-width column stops making sense on a tablet/laptop,
+   so widen it for readability while keeping everything single-column. */
+@media (min-width: 720px) {
+  .wrap {
+    max-width: 640px;
+    padding: 0 20px 60px;
+  }
+}
+
+/* 960px+: real desktop space. Widen again and let the section cards below
+   the header (suns, week, reset, target, plan, reality, markers, footnote)
+   flow into a genuine two-column grid instead of one long phone-width list. */
+@media (min-width: 960px) {
+  .wrap {
+    max-width: 960px;
+    padding: 0 32px 72px;
+  }
+}
+
+/* ---------- hero ---------- */
+
+.hero {
+  position: relative;
+  margin: 0 -3px;
+  border-radius: 0 0 26px 26px;
+  overflow: hidden;
+  line-height: 0;
+}
+.hero svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.hero-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  padding: 0 20px;
+  line-height: 1.2;
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(236, 249, 245, 0.75);
+  margin: 0 0 4px;
+  font-weight: 700;
+}
+.counter {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(32px, 10vw, 46px);
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-shadow: 0 2px 18px rgba(9, 36, 48, 0.55);
+}
+.sub {
+  font-size: 12.5px;
+  color: rgba(236, 249, 245, 0.8);
+  margin: 2px 0 0;
+}
+
+/* ---------- a little fairy dust: stars + fireflies in the hero ---------- */
+
+.star {
+  transform-origin: center;
+}
+.firefly {
+  transform-origin: center;
+  filter: drop-shadow(0 0 3px rgba(255, 231, 168, 0.9));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .star {
+    animation: twinkle 4.5s ease-in-out infinite;
+  }
+  .firefly {
+    animation:
+      drift 7s ease-in-out infinite,
+      glimmer 2.6s ease-in-out infinite;
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+@keyframes drift {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(7px, -4px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes glimmer {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ---------- freshness ---------- */
+
+.fresh {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 14px 0 0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--edge);
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--muted);
+}
+.fresh i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: var(--glass);
+}
+.fresh.aging i {
+  background: var(--sun);
+}
+.fresh.stale,
+.fresh.never {
+  border-color: rgba(255, 144, 119, 0.5);
+  color: #ffc7b8;
+}
+.fresh.stale i,
+.fresh.never i {
+  background: var(--coral);
+}
+.fresh button {
+  margin-left: auto;
+  background: none;
+  border: 0;
+  color: inherit;
+  font-family: var(--body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* ---------- tallies ---------- */
+
+.tally {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0 0;
+}
+.t {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--edge);
+  border-radius: 16px;
+  padding: 11px 12px;
+}
+.t-lab {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.t.a .t-lab {
+  color: var(--coral);
+}
+.t.b .t-lab {
+  color: var(--glass);
+}
+.t-val {
+  font-family: var(--display);
+  font-size: 21px;
+  font-weight: 600;
+}
+.t-val small {
+  font-family: var(--body);
+  font-size: 11px;
+  color: var(--dim);
+  font-weight: 400;
+}
+
+/* ---------- headings & cards ---------- */
+
+h2.h {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 19px;
+  margin: 32px 0 11px;
+}
+h2.h::before {
+  content: '✦';
+  display: inline-block;
+  margin-right: 7px;
+  font-size: 0.65em;
+  font-style: normal;
+  color: var(--sun);
+  opacity: 0.65;
+  vertical-align: 0.15em;
+}
+.card {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--edge);
+  border-radius: 20px;
+  padding: 16px;
+}
+.card + .card {
+  margin-top: 10px;
+}
+
+/* ---------- section grid ----------
+   Mobile/tablet: .grid2 is just a plain flow, each .block stacking exactly
+   like the old flat h2+card list did. Desktop: it becomes a real 2-column
+   grid, and the gap takes over the vertical rhythm the h2 top-margin used
+   to provide, so that margin is zeroed inside the grid to avoid double
+   spacing at the top of each block. */
+.block + .block {
+  margin-top: 0;
+}
+@media (min-width: 960px) {
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 32px 24px;
+  }
+  .grid2 .block > .h {
+    margin-top: 0;
+  }
+}
+.none {
+  font-size: 13px;
+  color: var(--dim);
+  font-style: italic;
+  margin: 4px 0;
+}
+
+/* ---------- the thirty ---------- */
+
+.suns {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+.sun {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1.5px solid var(--edge);
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sun::before,
+.sun::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.sun::before {
+  background: var(--coral);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.sun::after {
+  background: var(--glass);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+.sun.a::before {
+  opacity: 0.92;
+}
+.sun.b::after {
+  opacity: 0.92;
+}
+.sun.both::before,
+.sun.both::after {
+  opacity: 1;
+}
+.sun.both {
+  border-color: rgba(255, 192, 113, 0.7);
+  box-shadow: 0 0 16px rgba(255, 144, 119, 0.45);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sun.both {
+    animation: sun-glow 3.6s ease-in-out infinite;
+  }
+}
+@keyframes sun-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 16px rgba(255, 144, 119, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(255, 192, 113, 0.65);
+  }
+}
+.sun span {
+  position: relative;
+  z-index: 2;
+}
+.sun.a span,
+.sun.b span,
+.sun.both span {
+  color: var(--abyss);
+}
+.sun.today {
+  border-color: var(--foam);
+}
+.sun.future {
+  opacity: 0.4;
+}
+.sun.flex {
+  border-style: dashed;
+}
+.sun i {
+  position: absolute;
+  z-index: 3;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--sun);
+  box-shadow: 0 0 5px 1px rgba(255, 192, 113, 0.8);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sun i {
+    animation: glimmer 2.2s ease-in-out infinite;
+  }
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin-top: 12px;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dim);
+  font-weight: 700;
+}
+.sw {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+
+/* ---------- person tabs & week nav ---------- */
+
+.tabs {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+.tabs button {
+  flex: 1;
+  border: 1.5px solid var(--edge);
+  background: transparent;
+  border-radius: 20px;
+  padding: 9px 6px;
+  cursor: pointer;
+  color: var(--muted);
+  font-family: var(--body);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.tabs button.on[data-w='a'] {
+  background: rgba(255, 144, 119, 0.2);
+  border-color: var(--coral);
+  color: var(--coral);
+}
+.tabs button.on[data-w='b'] {
+  background: rgba(95, 217, 201, 0.18);
+  border-color: var(--glass);
+  color: var(--glass);
+}
+.wknav {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.wknav button {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--edge);
+  border-radius: 20px;
+  padding: 7px 3px;
+  cursor: pointer;
+  color: var(--muted);
+  font-family: var(--body);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+.wknav button.on {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--foam);
+  border-color: var(--muted);
+}
+
+/* ---------- week matrix ---------- */
+
+.mx-head,
+.mx-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.mx-row {
+  padding: 7px 0;
+  border-top: 1px solid var(--edge);
+}
+.mx-lab {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mx-head .mx-lab {
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--dim);
+}
+.mx-cells {
+  display: flex;
+  gap: 5px;
+  flex: 0 0 auto;
+}
+.mx-d {
+  width: 24px;
+  text-align: center;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--dim);
+}
+.mx-d b {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+}
+.mx-c {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--edge);
+  color: transparent;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mx-c.on[data-w='a'] {
+  background: var(--coral);
+  border-color: var(--coral);
+  color: var(--abyss);
+}
+.mx-c.on[data-w='b'] {
+  background: var(--glass);
+  border-color: var(--glass);
+  color: var(--abyss);
+}
+.mx-c.auto {
+  border-style: dashed;
+}
+.mx-c.fut {
+  opacity: 0.3;
+}
+.mx-hint {
+  font-size: 12px;
+  color: var(--dim);
+  margin: 12px 0 0;
+}
+.misses {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--coral);
+  flex: 0 0 auto;
+  width: 22px;
+  text-align: right;
+}
+
+/* ---------- alert ---------- */
+
+.alert {
+  margin-top: 10px;
+  padding: 13px 15px;
+  border-radius: 16px;
+  background: rgba(255, 144, 119, 0.14);
+  border: 1px solid rgba(255, 144, 119, 0.5);
+}
+.alert span {
+  display: block;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--coral);
+  margin-bottom: 3px;
+}
+.alert p {
+  margin: 0;
+  font-size: 13.5px;
+}
+
+/* ---------- rule ribbon ---------- */
+
+.rule {
+  margin-top: 10px;
+  padding: 12px 15px;
+  border-radius: 16px;
+  background: linear-gradient(120deg, rgba(255, 192, 113, 0.16), rgba(95, 217, 201, 0.12));
+  border: 1px solid rgba(255, 192, 113, 0.4);
+}
+.rule span {
+  display: block;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--sun);
+  margin-bottom: 2px;
+}
+.rule p {
+  margin: 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 16px;
+}
+
+/* ---------- list sections ---------- */
+
+.sec {
+  padding: 13px 0;
+  border-top: 1px solid var(--edge);
+}
+.sec:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.sec h4 {
+  margin: 0 0 6px;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 600;
+}
+.sec.a h4 {
+  color: var(--coral);
+}
+.sec.b h4 {
+  color: var(--glass);
+}
+.sec.u h4 {
+  color: var(--sun);
+}
+.sec dl {
+  margin: 0;
+}
+.sec dt {
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--dim);
+  margin-top: 8px;
+}
+.sec dd {
+  margin: 1px 0 0;
+  font-size: 13.5px;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 9px 0;
+  border-top: 1px solid var(--edge);
+  font-size: 13.5px;
+}
+.row:first-child {
+  border-top: 0;
+}
+.row b {
+  flex: 0 0 auto;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  min-width: 62px;
+}
+.row em {
+  font-style: normal;
+  color: var(--dim);
+  font-size: 11.5px;
+}
+
+.load {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.load div {
+  flex: 1;
+  text-align: center;
+  background: rgba(9, 36, 48, 0.4);
+  border: 1px solid var(--edge);
+  border-radius: 14px;
+  padding: 9px 6px;
+}
+.load b {
+  display: block;
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 600;
+}
+.load.over b {
+  color: var(--coral);
+}
+.load span {
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--dim);
+}
+
+details.card {
+  padding: 0;
+}
+details.card > summary {
+  padding: 15px 16px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 600;
+}
+details.card > summary::-webkit-details-marker {
+  display: none;
+}
+details.card > summary::after {
+  content: '  ⌄';
+  color: var(--dim);
+}
+details.card[open] > summary::after {
+  content: '  ⌃';
+}
+.dbody {
+  padding: 0 16px 17px;
+}
+
+.msg {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+.msg h1 {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 26px;
+  margin: 0 0 10px;
+  color: var(--foam);
+}
+.msg code {
+  font-size: 12px;
+  color: var(--sun);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sun,
+  .mx-c {
+    transition:
+      opacity 0.2s ease,
+      background 0.15s ease;
+  }
+}

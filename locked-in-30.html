@@ -1,0 +1,1299 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Nunito:wght@400;600;700&display=swap');
+
+  :root{
+    --abyss:#092430;--edge:rgba(158,214,209,.20);
+    --foam:#ECF9F5;--muted:#A6C9C9;--dim:#77A0A6;
+    --sun:#FFC071;--coral:#FF9077;--glass:#5FD9C9;
+    --display:'Fraunces',Georgia,serif;
+    --body:'Nunito',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box}
+
+  .oc-root{
+    margin:0;min-height:100vh;
+    background:
+      radial-gradient(130% 50% at 50% 0%, rgba(255,144,119,.10), transparent 65%),
+      linear-gradient(180deg,#0D3242 0%,#0B2C39 45%,#092430 100%);
+    color:var(--foam);font-family:var(--body);font-size:15px;line-height:1.55;
+    padding:0 15px 60px;-webkit-font-smoothing:antialiased;
+  }
+  .oc-wrap{max-width:470px;margin:0 auto}
+
+  .oc-hero{position:relative;margin:16px 0 22px;border-radius:24px;overflow:hidden;border:1px solid var(--edge);box-shadow:0 14px 40px rgba(0,0,0,.28)}
+  .oc-hero svg{display:block;width:100%;height:auto}
+  .oc-hero .oc-top{position:absolute;left:0;right:0;bottom:0;padding:14px 18px 13px;background:linear-gradient(180deg,transparent,rgba(9,36,48,.55) 40%,rgba(9,36,48,.78))}
+
+  .oc-eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:rgba(236,249,245,.85);margin:0 0 4px;font-weight:700}
+  .oc-counter{font-family:var(--display);font-style:italic;font-weight:600;font-size:clamp(28px,8vw,38px);letter-spacing:-.02em;margin:0;text-shadow:0 0 26px rgba(255,192,113,.35),0 1px 8px rgba(9,36,48,.5)}
+  .oc-sub{font-size:12.5px;color:rgba(236,249,245,.85);margin:2px 0 0}
+
+  .oc-grid{display:block}
+  @media (min-width:920px){
+    .oc-wrap{max-width:980px}
+    .oc-hero svg{max-height:230px}
+    .oc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 34px;align-items:start}
+    .oc-grid .oc-col > h2.oc-h:first-child{margin-top:6px}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .eh-star{animation:ehTwinkle 3.4s ease-in-out infinite}
+    .eh-fly{animation:ehDrift 5.5s ease-in-out infinite}
+    .eh-sun{animation:ehBreathe 6s ease-in-out infinite}
+  }
+  @keyframes ehTwinkle{0%,100%{opacity:.25}50%{opacity:1}}
+  @keyframes ehDrift{0%,100%{transform:translate(0,0);opacity:.5}40%{transform:translate(4px,-5px);opacity:1}70%{transform:translate(-3px,-8px);opacity:.7}}
+  @keyframes ehBreathe{0%,100%{opacity:.92}50%{opacity:1}}
+
+  h2.oc-h{font-family:var(--display);font-style:italic;font-weight:400;font-size:19px;margin:32px 0 11px}
+  h2.oc-h::before{content:'\2726';color:var(--sun);margin-right:7px;font-size:14px;font-style:normal}
+  h2.oc-h .oc-hbtn{float:right;margin-top:3px}
+
+  .oc-card{background:linear-gradient(160deg,rgba(255,192,113,.05),rgba(255,255,255,.04));border:1px solid var(--edge);border-radius:20px;padding:16px;box-shadow:0 1px 0 rgba(255,255,255,.03) inset}
+  .oc-card + .oc-card{margin-top:10px}
+
+  .oc-row3{display:flex;gap:8px;flex-wrap:wrap}
+  .oc-row3 > div{flex:1 1 130px;min-width:0}
+
+  .oc-togday{width:100%;margin:0 0 12px;padding:9px 12px;cursor:pointer;border:1.5px dashed var(--edge);border-radius:13px;background:transparent;color:var(--muted);font-family:var(--body);font-size:12.5px;font-weight:600;text-align:left;transition:box-shadow .2s ease,transform .15s ease}
+  .oc-togday.on{background:rgba(255,192,113,.16);border-style:solid;border-color:rgba(255,192,113,.55);color:var(--sun);box-shadow:0 0 18px rgba(255,192,113,.22)}
+  .oc-togday:focus-visible{outline:2px solid var(--foam);outline-offset:2px}
+
+  .oc-none{font-size:13px;color:var(--dim);font-style:italic;margin:4px 0}
+
+  .oc-note,.oc-in{width:100%;background:rgba(9,36,48,.45);border:1px solid var(--edge);border-radius:13px;color:var(--foam);font-family:var(--body);font-size:14px;padding:10px 12px}
+  .oc-note{margin-top:13px;min-height:50px;resize:vertical}
+  .oc-note:focus,.oc-in:focus{outline:none;border-color:var(--muted)}
+  .oc-note::placeholder,.oc-in::placeholder{color:var(--dim)}
+  .oc-lab{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:5px}
+
+  .oc-btn{border:1px solid var(--edge);background:transparent;border-radius:20px;color:var(--muted);font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:7px 13px;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
+  .oc-btn.primary{background:linear-gradient(120deg,var(--sun),var(--coral));border-color:transparent;color:var(--abyss)}
+  .oc-btn.primary:hover{transform:translateY(-1px)}
+  .oc-btn:focus-visible{outline:2px solid var(--foam);outline-offset:2px}
+
+  .oc-flexrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--edge);flex-wrap:wrap}
+  .oc-flexrow label{font-size:13px;color:var(--muted)}
+  select.oc-in{width:auto;min-width:150px;padding:8px 10px}
+  .oc-wknav{display:flex;gap:6px;margin-bottom:14px}
+  .oc-wk{flex:1;background:transparent;border:1px solid var(--edge);border-radius:20px;padding:7px 3px;cursor:pointer;color:var(--muted);font-family:var(--body);font-size:10.5px;font-weight:700;transition:transform .15s ease,background .15s ease}
+  .oc-wk:hover{transform:translateY(-1px)}
+  .oc-wk.on{background:linear-gradient(120deg,rgba(255,192,113,.22),rgba(255,144,119,.14));color:var(--sun);border-color:rgba(255,192,113,.5)}
+  .oc-wk:focus-visible{outline:2px solid var(--foam);outline-offset:2px}
+
+  details.oc-card{padding:0}
+  details.oc-card > summary{padding:15px 16px;cursor:pointer;list-style:none;font-family:var(--display);font-size:15px;font-weight:600}
+  details.oc-card > summary::-webkit-details-marker{display:none}
+  details.oc-card > summary::after{content:'  ⌄';color:var(--dim)}
+  details.oc-card[open] > summary::after{content:'  ⌃'}
+  .oc-body{padding:0 16px 17px}
+  .oc-body p{font-size:13px;color:var(--muted);margin:0 0 10px}
+  .oc-body ul{margin:0 0 12px;padding-left:19px;font-size:13px;color:var(--muted)}
+  .oc-body li{margin-bottom:6px}
+  .oc-body strong{color:var(--foam)}
+  .oc-row2{display:flex;gap:8px}
+  .oc-row2 > div{flex:1;min-width:0}
+  .oc-reset{background:transparent;border:1px solid var(--edge);border-radius:20px;color:var(--muted);font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.1em;padding:9px 14px;cursor:pointer;text-transform:uppercase;margin-top:6px}
+  .oc-status{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--dim);margin-top:24px;text-align:center;min-height:14px}
+
+  /* wizard */
+  .gw{display:none;
+    background:linear-gradient(180deg,#FFD59B 0%,#FF9E7D 20%,#C9736F 42%,#5C6E82 66%,#0B2C39 100%);
+    padding:0 18px 44px;min-height:100%}
+  .gw.open{display:block}
+  .gw-in{max-width:440px;margin:0 auto;min-height:560px;display:flex;flex-direction:column}
+  .gw-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 0 0}
+  .gw-chap{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:rgba(9,36,48,.6)}
+  .gw-x{border:0;background:rgba(9,36,48,.14);color:#092430;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;line-height:1}
+  .gw-x:focus-visible{outline:2px solid #092430;outline-offset:2px}
+  .gw-bar{height:4px;border-radius:4px;background:rgba(9,36,48,.16);margin:14px 0 0;overflow:hidden}
+  .gw-bar i{display:block;height:100%;background:#FFF3D6;border-radius:4px;transition:width .3s ease}
+  .gw-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:24px 0}
+  .gw-q{font-family:var(--display);font-style:italic;font-weight:600;font-size:clamp(26px,7.8vw,34px);line-height:1.12;letter-spacing:-.02em;color:#0B2C39;margin:0 0 9px}
+  .gw-sub{font-size:16px;color:rgba(11,44,57,.85);margin:0 0 6px;font-weight:600}
+  .gw-hint{font-size:13.5px;color:rgba(11,44,57,.62);margin:0 0 18px}
+  .gw-hint strong{color:#0B2C39}
+  .gw-f{margin-bottom:12px}
+  .gw-f label{display:block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:rgba(11,44,57,.55);margin-bottom:5px}
+  .gw-f input,.gw-f textarea{width:100%;background:rgba(255,255,255,.72);border:1.5px solid rgba(11,44,57,.16);border-radius:14px;color:#0B2C39;font-family:var(--body);font-size:16px;padding:13px 14px}
+  .gw-f textarea{min-height:86px;resize:vertical;line-height:1.45}
+  .gw-f input:focus,.gw-f textarea:focus{outline:none;border-color:#0B2C39;background:#fff}
+  .gw-f input::placeholder,.gw-f textarea::placeholder{color:rgba(11,44,57,.4)}
+
+  .gw-chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 16px}
+  .gw-chip{border:1.5px solid rgba(11,44,57,.22);background:rgba(255,255,255,.5);color:#0B2C39;border-radius:30px;padding:9px 14px;font-family:var(--body);font-size:13.5px;font-weight:600;cursor:pointer}
+  .gw-chip.on{background:#0B2C39;border-color:#0B2C39;color:#FFF3D6}
+  .gw-chip:focus-visible{outline:2px solid #0B2C39;outline-offset:2px}
+  .gw-add{display:flex;gap:7px;margin-bottom:16px}
+  .gw-add input{flex:1;background:rgba(255,255,255,.72);border:1.5px solid rgba(11,44,57,.16);border-radius:14px;color:#0B2C39;font-family:var(--body);font-size:15px;padding:12px 14px}
+  .gw-add input:focus{outline:none;border-color:#0B2C39;background:#fff}
+  .gw-add button{border:0;background:#0B2C39;color:#FFF3D6;border-radius:14px;padding:0 18px;font-family:var(--body);font-size:15px;font-weight:700;cursor:pointer}
+
+  .gw-nav{display:flex;gap:10px;align-items:center;padding-bottom:8px;margin-top:6px}
+  .gw-back{border:1.5px solid rgba(11,44,57,.25);background:transparent;color:#0B2C39;border-radius:30px;padding:13px 18px;font-family:var(--body);font-size:13px;font-weight:700;cursor:pointer}
+  .gw-next{flex:1;border:0;background:#0B2C39;color:#FFF3D6;border-radius:30px;padding:15px 20px;font-family:var(--body);font-size:14px;font-weight:700;cursor:pointer}
+  .gw-back:focus-visible,.gw-next:focus-visible{outline:2px solid #0B2C39;outline-offset:2px}
+  .gw-skip{display:block;margin:13px auto 0;background:none;border:0;color:rgba(11,44,57,.5);font-family:var(--body);font-size:12.5px;text-decoration:underline;cursor:pointer}
+
+  /* hub */
+  .gw-pick{background:rgba(255,255,255,.6);border:1.5px solid rgba(11,44,57,.14);border-radius:20px;padding:15px 16px;margin-bottom:9px;cursor:pointer;width:100%;text-align:left;display:block}
+  .gw-pick h3{font-family:var(--display);font-style:italic;font-size:20px;margin:0 0 3px;color:#0B2C39;font-weight:600}
+  .gw-pick p{margin:0;font-size:13px;color:rgba(11,44,57,.65)}
+  .gw-pick-st{display:inline-block;margin-top:9px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(11,44,57,.1);color:rgba(11,44,57,.7)}
+  .gw-pick.full .gw-pick-st{background:#0B2C39;color:#FFF3D6}
+  .gw-pick.lock{opacity:.5}
+  .gw-pick:focus-visible{outline:2px solid #0B2C39;outline-offset:2px}
+
+  .gw-arow{background:rgba(255,255,255,.55);border:1.5px solid rgba(11,44,57,.13);border-radius:16px;padding:12px 13px;margin-bottom:9px}
+  .gw-arow.park{opacity:.55}
+  .gw-atop{display:flex;align-items:flex-start;gap:8px;margin-bottom:9px}
+  .gw-atext{flex:1;font-size:14.5px;font-weight:600;color:#0B2C39;line-height:1.3}
+  .gw-atext small{display:block;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(11,44,57,.45);font-weight:700;margin-top:2px}
+  .gw-del{border:0;background:transparent;color:rgba(11,44,57,.4);font-size:15px;cursor:pointer;padding:0 2px;line-height:1}
+  .gw-seg{display:flex;gap:4px;margin-top:5px}
+  .gw-seg button{flex:1;border:1.5px solid rgba(11,44,57,.18);background:transparent;color:rgba(11,44,57,.65);border-radius:20px;padding:6px 2px;font-family:var(--body);font-size:11px;font-weight:700;cursor:pointer}
+  .gw-seg button.on{background:#0B2C39;border-color:#0B2C39;color:#FFF3D6}
+  .gw-seg button:focus-visible{outline:2px solid #0B2C39;outline-offset:1px}
+  .gw-fx{margin-top:7px;background:none;border:0;padding:0;font-family:var(--body);font-size:11.5px;font-weight:700;color:rgba(11,44,57,.55);cursor:pointer;text-decoration:underline}
+  .gw-count{position:sticky;top:0;z-index:2;background:rgba(255,243,214,.94);border-radius:14px;padding:9px 12px;margin-bottom:12px;font-size:12.5px;font-weight:700;color:#0B2C39;text-align:center}
+  .gw-warn{background:rgba(11,44,57,.09);border-left:3px solid #0B2C39;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13.5px;color:#0B2C39}
+
+  .gw-slotrow{display:flex;gap:6px;margin-top:8px}
+  .gw-slotrow input,.gw-slotrow select{
+    flex:1;min-width:0;background:rgba(255,255,255,.78);
+    border:1.5px solid rgba(11,44,57,.16);border-radius:11px;color:#0B2C39;
+    font-family:var(--body);font-size:14px;padding:9px 10px;
+  }
+  .gw-slotrow input:focus,.gw-slotrow select:focus{outline:none;border-color:#0B2C39;background:#fff}
+  .gw-out{
+    width:100%;min-height:150px;background:rgba(11,44,57,.92);color:#EAF7F4;
+    border:0;border-radius:14px;font-family:ui-monospace,Menlo,monospace;
+    font-size:12px;line-height:1.6;padding:13px;resize:vertical;margin-bottom:8px;
+  }
+  .gw-copy{border:1.5px solid rgba(11,44,57,.25);background:transparent;color:#0B2C39;border-radius:30px;padding:10px 16px;font-family:var(--body);font-size:12.5px;font-weight:700;cursor:pointer;margin-bottom:18px}
+  .gw-oh{font-family:var(--display);font-style:italic;font-size:18px;font-weight:600;color:#0B2C39;margin:0 0 8px}
+
+  .gw-seal{text-align:center;padding:16px 0}
+  .gw-seal-sun{width:72px;height:72px;border-radius:50%;margin:0 auto 16px;background:radial-gradient(circle,#FFF6DE 30%,#FFC071 70%,rgba(255,192,113,0) 100%);box-shadow:0 0 42px rgba(255,240,196,.85)}
+  .gw-seal h2{font-family:var(--display);font-style:italic;font-size:29px;margin:0 0 8px;color:#0B2C39;font-weight:600}
+  .gw-seal p{font-size:14px;color:rgba(11,44,57,.72);margin:0 auto 20px;max-width:310px}
+
+  @media (prefers-reduced-motion:no-preference){
+    .gw-body{animation:gwIn .3s ease both}
+    @keyframes gwIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="oc-root">
+<div class="oc-wrap">
+
+  <div class="oc-hero">
+    <svg viewBox="0 0 440 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="ehsky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FFD9A0"/><stop offset="34%" stop-color="#FFAE85"/>
+          <stop offset="62%" stop-color="#E3806F"/><stop offset="84%" stop-color="#9C6685"/>
+          <stop offset="100%" stop-color="#4E6E80"/>
+        </linearGradient>
+        <radialGradient id="ehglow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFF0C4" stop-opacity=".95"/>
+          <stop offset="55%" stop-color="#FFC071" stop-opacity=".45"/>
+          <stop offset="100%" stop-color="#FFC071" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="ehw1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2E6E7C"/><stop offset="100%" stop-color="#1B4F60"/>
+        </linearGradient>
+        <linearGradient id="ehw2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#17495A"/><stop offset="100%" stop-color="#0E3341"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="440" height="104" fill="url(#ehsky)"/>
+      <g fill="#FFF6E2">
+        <circle class="eh-star" cx="46" cy="20" r="1.4"/>
+        <circle class="eh-star" cx="120" cy="46" r="1.1" style="animation-delay:.7s"/>
+        <circle class="eh-star" cx="196" cy="16" r="1.4" style="animation-delay:1.5s"/>
+        <circle class="eh-star" cx="252" cy="58" r="1" style="animation-delay:.3s"/>
+        <circle class="eh-star" cx="382" cy="40" r="1.3" style="animation-delay:2.2s"/>
+        <circle class="eh-star" cx="412" cy="14" r="1.1" style="animation-delay:1s"/>
+      </g>
+      <circle cx="300" cy="72" r="46" fill="url(#ehglow)"/>
+      <circle class="eh-sun" cx="300" cy="72" r="17" fill="#FFF1CE"/>
+      <g opacity=".3" fill="#FFF3DA">
+        <ellipse cx="76" cy="34" rx="21" ry="6"/><ellipse cx="92" cy="29" rx="13" ry="5"/>
+        <ellipse cx="356" cy="88" rx="16" ry="5"/>
+      </g>
+      <path d="M0 104 q55 -9 110 0 t110 0 t110 0 t110 0 v46 H0 z" fill="url(#ehw1)"/>
+      <path d="M0 124 q48 9 96 0 t96 0 t96 0 t96 0 t96 0 v26 H0 z" fill="url(#ehw2)"/>
+      <g fill="#FFE7A8">
+        <circle class="eh-fly" cx="82" cy="128" r="1.7"/>
+        <circle class="eh-fly" cx="205" cy="138" r="1.4" style="animation-delay:1.9s"/>
+        <circle class="eh-fly" cx="352" cy="130" r="1.6" style="animation-delay:3.1s"/>
+      </g>
+    </svg>
+    <div class="oc-top">
+      <p class="oc-eyebrow">Thirty days · together</p>
+      <h1 class="oc-counter" id="counter">Day one</h1>
+      <p class="oc-sub" id="sub">—</p>
+    </div>
+  </div>
+
+  <div class="oc-grid">
+  <div class="oc-col">
+
+  <button class="oc-btn primary" id="openHub" style="width:100%;padding:13px">Build the plan</button>
+  <p class="oc-none" id="planHint" style="text-align:center;margin-top:8px">Nothing built yet. Tap the button above to walk through it — about ten minutes, together.</p>
+
+  <h2 class="oc-h">Weekly reset<button class="oc-btn oc-hbtn" id="editReal">Edit reality</button></h2>
+  <div class="oc-card">
+    <div class="oc-wknav" id="wknav"></div>
+    <p class="oc-lab" id="resetWk">Week 1</p>
+    <div id="resetFields"></div>
+    <button class="oc-togday" id="resetDone">○ Reset not done yet</button>
+    <div id="resetAfter" style="display:none">
+      <p class="oc-none" style="margin:2px 0 10px">Changed the plan? Update the tasks in Todoist. Then download a backup so the tracker sees this week.</p>
+      <button class="oc-reset" id="backupReset" style="margin-top:0">Download a backup</button>
+    </div>
+    <div class="oc-flexrow" id="flexrow">
+      <label for="flexsel">Flex day</label>
+      <select class="oc-in" id="flexsel"></select>
+    </div>
+  </div>
+
+  </div>
+  <div class="oc-col">
+
+  <h2 class="oc-h">The small print</h2>
+
+  <details class="oc-card">
+    <summary>How this works</summary>
+    <div class="oc-body">
+      <p><strong>Two private lists, plus one shared.</strong> You each sweep your own life for the small things you want to keep up, and there's a third list for what belongs to both of you. Only your own list decides how your week went — so a busy month for one of you never turns into a competition.</p>
+      <p><strong>Every item is daily, weekly, or monthly — and picking the right one matters most.</strong> Daily is for small, cheap things that lose their point if skipped: a walk, a call, lights out on time. Weekly is for anything that needs a proper slot: the reset, a date night, laundry. Monthly is for what you keep meaning to do and never schedule: the dentist, a subscription clean-up, a friend you haven't seen in a while.</p>
+      <p><strong>Most failed attempts here aren't a willpower problem — they're the wrong item in the wrong place.</strong> A task that needs ninety minutes doesn't belong on the daily list. Put it there and it just gets missed, again and again, until the whole thing feels broken. It isn't. Move it to weekly or monthly instead.</p>
+      <p><strong>Daily lists cap at five items each.</strong> Not a suggestion. Six items means negotiating with yourself every evening, and that negotiation is what kills it.</p>
+      <p><strong>You get one flex day a week.</strong> Pick it at the weekly reset, before the week starts — never after a day you've already missed. It excuses every daily item except the ones you've marked as never-skip (pick at most two of those, or nothing feels special anymore). Days 29 and 30 don't get a flex day, so you finish clean.</p>
+      <p><strong>Missing one day is fine. Missing two in a row is the thing to watch for.</strong> Habits usually die on the second missed day, not the first.</p>
+      <p><strong>Only rearrange the plan at the weekly reset — never mid-week.</strong> Moving an item on a Sunday because it clearly doesn't fit is normal upkeep. Moving it on a Wednesday because you don't feel like it is how these things quietly fall apart.</p>
+    </div>
+  </details>
+
+  <details class="oc-card">
+    <summary>Where to put things in a day</summary>
+    <div class="oc-body">
+      <p>A daily item with no set time is just a wish. Give it one by attaching it to something that already happens on its own — coffee, the commute, closing the laptop, dinner, brushing your teeth.</p>
+      <ul>
+        <li><strong>Put your hardest item in your best hour</strong>, not whatever's left at the end of the day. Use the "best hour" you named in the reality questions.</li>
+        <li><strong>Anything physical happens before dinner.</strong> After dinner, it usually doesn't happen at all.</li>
+        <li><strong>Protect the twenty minutes after your day's hard stop</strong> — leaving work, closing the laptop, getting home. Those minutes decide what the rest of the evening looks like.</li>
+        <li><strong>Put shared items early enough to actually happen.</strong> A call at 22:50 on the way to bed barely counts.</li>
+        <li><strong>End the day at a fixed time.</strong> That's what makes tomorrow's list possible — and it's the step most people skip.</li>
+      </ul>
+      <p>If one of you has a loose schedule — between jobs, on a break, working from home — the risk flips: nothing forces a start, so the day quietly slips. Fix a wake time and do the important thing early, before the day talks you out of it.</p>
+    </div>
+  </details>
+
+  <details class="oc-card">
+    <summary>The weekly reset</summary>
+    <div class="oc-body">
+      <p>Twenty minutes, same time every week — in person if you're together, a call if you're not. This is what keeps the whole thing running, so put it on the calendar like anything else. It's the first thing to disappear if you don't.</p>
+      <ul>
+        <li><strong>What got missed more than twice this week?</strong> That's a sign the item's in the wrong place, not that you're not trying. Move it or cut it.</li>
+        <li><strong>What actually got done this week?</strong> Name the result, not the effort.</li>
+        <li><strong>When will you see each other next week?</strong> Say the days out loud and put them in both calendars, especially if your weeks vary.</li>
+        <li><strong>Which day is the flex day, and whose turn is it to plan anything shared?</strong></li>
+        <li><strong>One thing you'd like more of from each other.</strong></li>
+      </ul>
+      <p>That last question is the one couples skip, because it feels like inviting criticism. It's also the one that makes the other four worth doing.</p>
+    </div>
+  </details>
+
+  <details class="oc-card">
+    <summary>What happens on day 31</summary>
+    <div class="oc-body">
+      <p>Thirty days is enough to prove something works, but the ending is a cliff. Most of these fall apart the day after they finish, always for the same reason: nobody decided in advance what the smaller, permanent version looks like.</p>
+      <p><strong>In week four, pick two or three items to keep for good.</strong> Not the whole list — just the ones that clearly paid off. Drop the rest, no guilt. A thirty-day plan that becomes three permanent habits is a win. One you try to keep in full is one you'll drop within a fortnight.</p>
+      <p><strong>Check what's changing next.</strong> A new job, travel, a move — whatever you keep has to survive that, not just this month. If a habit only works in a quiet month, that's fine, but don't expect it to last past one.</p>
+    </div>
+  </details>
+
+  <details class="oc-card">
+    <summary>How the two apps split the work</summary>
+    <div class="oc-body">
+      <p><strong>Todoist handles the day.</strong> Three projects: one each, kept private, plus a shared "Ours" project for the handful of things that are only weekly or monthly and genuinely joint. Even shared daily items appear on both of your own lists — Todoist can only mark a task done once, so a single shared task could never show that you <em>both</em> showed up. Ticking your own copy is what lets the tracker tell the difference. It notifies you, you tick it. That's the whole daily routine.</p>
+      <p><strong>This form and the tracker handle the month.</strong> The plan, the targets, and the grid that shows whether you both showed up on the same day. Two private Todoist lists can't show that. The grid can.</p>
+      <p><strong>Open this once a week, at the reset.</strong> Fill in the week, answer the four questions, pick next week's flex day. Twenty minutes. Not nightly — ticking the same item in two places is the fastest way to abandon both.</p>
+      <p><strong>Nothing syncs backward.</strong> Finishing something in Todoist never updates this form. That's deliberate — two-way sync means conflicts and stored passwords and a system that breaks quietly. The plan only flows one way: decided here, done there, reviewed here.</p>
+      <p><strong>One catch: Todoist's free plan only keeps a week of history.</strong> That's exactly a week, so don't run the reset late — run it eight days late and last week's completions are gone.</p>
+    </div>
+  </details>
+
+  <details class="oc-card">
+    <summary>Names, date &amp; backups</summary>
+    <div class="oc-body">
+      <div class="oc-row3" style="margin-bottom:14px">
+        <div><label class="oc-lab" for="nameA">Name 1</label><input class="oc-in" id="nameA" placeholder="Him"></div>
+        <div><label class="oc-lab" for="nameB">Name 2</label><input class="oc-in" id="nameB" placeholder="Her"></div>
+        <div><label class="oc-lab" for="start">Day 1</label><input class="oc-in" id="start" type="date"></div>
+      </div>
+      <p style="font-size:12px;color:var(--dim);margin:0 0 8px">Everything lives in this browser. Back it up now and then, and after every reset.</p>
+      <button class="oc-reset" id="backup">Download a backup</button>
+      <button class="oc-reset" id="restore">Restore from a backup</button>
+      <input type="file" id="restoreFile" accept=".json,application/json" style="display:none">
+      <button class="oc-reset" id="reset">Clear tick history</button>
+    </div>
+  </details>
+
+  </div>
+  </div>
+
+  <p class="oc-status" id="status"></p>
+</div>
+</div>
+
+<div class="gw" id="gw" role="dialog" aria-modal="true" aria-label="Build the plan">
+  <div class="gw-in">
+    <div class="gw-top">
+      <span class="gw-chap" id="gwChap">Build the plan</span>
+      <button class="gw-x" id="gwClose" aria-label="Close">✕</button>
+    </div>
+    <div class="gw-bar"><i id="gwBar" style="width:0%"></i></div>
+    <div class="gw-body" id="gwBody"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var KEY='oceansun30:v5';
+
+  /* individual areas */
+  var AREAS=[
+    {k:'body',n:'Body',q:'Body',
+     sub:'What would make you feel physically better in a month?',
+     hint:'Think boring and repeatable rather than transformation. Mostly the things you already know you should do.',
+     s:['20 min walk','Gym session','Run','Stretch 10 min','Drink more water','Cook instead of order','Nothing to eat late','Take vitamins','Eight hours in bed','Step target','Take the stairs']},
+    {k:'mind',n:'Mind',q:'Mind',
+     sub:'What do you want to be feeding your head?',
+     hint:'Equally fair game: what you want to stop feeding it.',
+     s:['Read 20 min','No scrolling in bed','Journal 5 min','Language practice','One lesson of a course','Meditate 10 min','Something instead of a podcast','A screen time cap','Write down one idea']},
+    {k:'work',n:'Work & study',q:'Work & study',
+     sub:'What needs to move forward — and what keeps not moving?',
+     hint:'One focused block beats four hours of half-attention. Also think about the admin you avoid.',
+     s:['Focused block, phone away','Inbox to zero','Weekly review','Plan tomorrow the night before','Study block','One application','Learn one new thing','Tidy my notes','Say no to one thing']},
+    {k:'money',n:'Money',q:'Money',
+     sub:'What would make money feel less vague?',
+     hint:'Mostly this area is about looking at it, not about spending less.',
+     s:['Log every expense','Check the balance','A no-spend day','Weekly budget review','Cancel one subscription','Move money to savings','Shop with a list','Monthly overview']},
+    {k:'home',n:'Home',q:'Home',
+     sub:'What state do you want your space to be in?',
+     hint:'Small and daily beats a heroic weekend clean that never comes.',
+     s:['10 min tidy','Dishes before bed','Laundry day','Meal prep','Make the bed','One declutter zone','Water the plants','Weekly shop','Change the sheets','Clear the desk']},
+    {k:'people',n:'People',q:'People',
+     sub:'Who do you keep meaning to speak to?',
+     hint:'Low effort, high return, and the first thing to drop when life gets busy.',
+     s:['Call family','See a friend','Reply to the messages I owe','A video call','Check the birthday list','Make a plan with someone new','Send one thank you']},
+    {k:'attention',n:'Attention & rest',q:'Attention & rest',
+     sub:'Where does your time actually leak?',
+     hint:'Be specific. "Less phone" is not a habit. "Phone charges in the hallway" is.',
+     s:['Phone out of the bedroom','No phone first 30 min','Lights out by a set time','One offline evening','Delete one app for the month','No screens before bed','Nap instead of scroll','Notifications off']},
+    {k:'play',n:'Creativity & play',q:'Creativity & play',
+     sub:'What do you do purely because you enjoy it?',
+     hint:'The first thing to vanish when life gets serious, and the thing whose absence you feel without being able to name it.',
+     s:['Play an instrument','Draw or paint','Write something','Take photos','A game, properly','Build something','Cook something new','An hour on the hobby','Learn a skill with no purpose']},
+    {k:'admin',n:'Admin & paperwork',q:'Admin & paperwork',
+     sub:'What have you been putting off for months?',
+     hint:'Almost all of this is monthly, not daily. The point of naming it is to get it out of your head and onto a date.',
+     s:['Book the appointment','Sort the paperwork','File the receipts','Renew the thing','Answer the email I am avoiding','Back up my files','Tidy my inbox','One thing off the someday list']}
+  ];
+
+  /* shared areas */
+  var USAREAS=[
+    {k:'us',n:'Us',q:'Us',
+     sub:'What do you want to be consistent about with each other?',
+     hint:'This is the area where a missed day actually costs something, so go fewer and better. Two or three live items is plenty.',
+     s:['A real call, not texting','Phone-free hour together','Say one appreciation','No phones at the table','A date','The weekly reset','Plan the week together','Cook together','Something neither of us has done','A walk with no destination','Go to bed at the same time']},
+    {k:'usadmin',n:'Shared admin',q:'Shared admin',
+     sub:'What keeps slipping because it belongs to both of you, and therefore to neither?',
+     hint:'The stuff that generates low-level friction until somebody finally owns it. Naming who owns it is half the fix.',
+     s:['Weekly shop','Settle who owes what','Plan the month ahead','Book the thing we keep talking about','Meal plan','One shared errand cleared','Sort the shared calendar','Tidy together']},
+    {k:'ustime',n:'Time together',q:'Time together',
+     sub:'What do you want your time together to actually feel like?',
+     hint:'Not more time necessarily. Better-shaped time. Think about what usually ruins a good evening.',
+     s:['One evening with no screens','No logistics talk for an hour','Breakfast together','An early night','See friends together','A day with no plans','Leave the phones in another room','Do nothing, on purpose']}
+  ];
+
+  var REAL=[
+    {k:'a',q:'@a\u2019s week',
+     sub:'What does a normal week actually look like?',
+     hint:'Hours, commute, what time the day really ends. The plan has to survive a real Tuesday, not an ideal one.',
+     f:[{k:'shape',t:'area',lab:'The shape of it',ph:'When work or study starts and ends, fixed sessions, the commute'},
+        {k:'dip',t:'in',lab:'When the energy dies',ph:'After which point nothing serious is going to happen'}]},
+    {k:'a2',q:'@a\u2019s fixed points',
+     sub:'What can\u2019t move, whatever this plan says?',
+     hint:'Naming it now stops it feeling like a failure later. Then find the good hour — that\u2019s where the hardest item goes.',
+     f:[{k:'fixed',t:'area',lab:'Immovable',ph:'Standing commitments, shifts, regular obligations'},
+        {k:'best',t:'in',lab:'The best hour of the day',ph:'When focus is actually available'},
+        {k:'change',t:'in',lab:'Anything changing in the next two months',ph:'New job, term starting, travel, a move'}]},
+    {k:'b',q:'@b\u2019s week',
+     sub:'And the other one — what does hers look like?',
+     hint:'Fill this in together if you can. Assumptions about each other\u2019s week are where unfair plans come from.',
+     f:[{k:'shape',t:'area',lab:'The shape of it',ph:'When work or study starts and ends, fixed sessions, the commute'},
+        {k:'dip',t:'in',lab:'When the energy dies',ph:'After which point nothing serious is going to happen'}]},
+    {k:'b2',q:'@b\u2019s fixed points',
+     sub:'What can\u2019t move for her?',
+     hint:'Same logic. Fixed points first, then the hour where focus is actually available.',
+     f:[{k:'fixed',t:'area',lab:'Immovable',ph:'Standing commitments, shifts, regular obligations'},
+        {k:'best',t:'in',lab:'The best hour of the day',ph:'When focus is actually available'},
+        {k:'change',t:'in',lab:'Anything changing in the next two months',ph:'New job, term starting, travel, a move'}]},
+    {k:'us',q:'How the two weeks fit',
+     sub:'When are you actually in the same place?',
+     hint:'Everything on the shared list depends on this answer, so be realistic rather than hopeful.',
+     f:[{k:'pattern',t:'area',lab:'Usually together on',ph:'Which days, and how much that varies'},
+        {k:'travel',t:'in',lab:'Door to door',ph:'How long it takes to get to each other'}]},
+    {k:'us2',q:'The reward',
+     sub:'What happens on day thirty — and when will you book it?',
+     hint:'A reward you haven\u2019t booked is a reward that doesn\u2019t happen. Put a date on the booking, not just the thing.',
+     f:[{k:'reward',t:'in',lab:'The reward',ph:'Something you wouldn\u2019t otherwise do'},
+        {k:'rewardWhen',t:'in',lab:'Booked by',ph:'A real date, inside week one'}]}
+  ];
+
+  var GOALQ=[
+    {q:'The one thing',
+     sub:'What do you want to have actually moved by day thirty?',
+     hint:'Everything you just picked is an input. This is the output. Pick something with a finish line \u2014 something you could concretely fail.',
+     f:[{k:'one',t:'area',lab:'The target',ph:'One sentence, specific enough to fail'},
+        {k:'done',t:'area',lab:'Done looks like',ph:'Something someone else could verify without taking your word for it'}]},
+    {q:'What will try to stop you',
+     sub:'Name it now, while nothing has gone wrong yet.',
+     hint:'Then decide what you do the moment it shows up. Nobody makes a good call about this at 21:00 on a bad day, so make it now.',
+     f:[{k:'derail',t:'in',lab:'The thing',ph:'The specific situation that ends the day'},
+        {k:'counter',t:'in',lab:'What I do instead',ph:'The smaller version I do anyway'}]},
+    {q:'And if you land it',
+     sub:'What do you get, just for you?',
+     hint:'Separate from the shared day-thirty reward. Specific, and slightly indulgent.',
+     f:[{k:'reward',t:'in',lab:'The prize',ph:'Something you would not otherwise buy or do'}]}
+  ];
+
+  var USQ=[
+    {q:'The one rule',
+     sub:'What do the two of you not break, even on a bad day?',
+     hint:'One rule. It sits at the top of the tracker every single day for a month, so make it one you mean.',
+     f:[{k:'rule',t:'in',lab:'We never\u2026',ph:'One line'}]},
+    {q:'One thing I want more of',
+     sub:'From each other. A line each, written by the person asking.',
+     hint:'The question couples skip because it feels like inviting criticism. It is the one that makes the weekly reset worth sitting through.',
+     f:[{k:'wantA',t:'in',lab:'@a asks for',ph:'\u2026'},
+        {k:'wantB',t:'in',lab:'@b asks for',ph:'\u2026'}]}
+  ];
+
+  var state=null,t=null,sel=1,wk=1,who='a';
+  var chap=null,step=0;
+
+  function pad(n){return n<10?'0'+n:''+n}
+  function firstOfNextMonth(){
+    var d=new Date();d=new Date(d.getFullYear(),d.getMonth()+1,1);
+    return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-01';
+  }
+  function blank(){return{start:firstOfNextMonth(),names:{a:'',b:''},real:{},
+    goals:{a:{},b:{}},pact:{},items:[],seq:1,chk:{},days:{},flex:{},reset:{}}}
+  function day(n){if(!state.days[n])state.days[n]={note:'',tg:0};return state.days[n]}
+  function weekOf(n){return n>28?5:Math.ceil(n/7)}
+  function range(w){return w===5?[29,30]:[(w-1)*7+1,w*7]}
+  function dateOf(n){var p=state.start.split('-');var d=new Date(+p[0],+p[1]-1,+p[2]);
+    d.setDate(d.getDate()+(n-1));return d}
+  function fmt(d){return d.toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'})}
+  function cur(){var p=state.start.split('-');var s=new Date(+p[0],+p[1]-1,+p[2]);
+    var n=new Date();n.setHours(0,0,0,0);s.setHours(0,0,0,0);
+    return Math.floor((n-s)/86400000)+1}
+  function isFlex(n){return state.flex[weekOf(n)]===n}
+  function nm(k){return state.names[k]||(k==='a'?'Him':'Her')}
+  function R(k){return state.real[k]||(state.real[k]={})}
+  function G(k){return state.goals[k]||(state.goals[k]={})}
+  function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+  function tok(s){return s.replace(/@a/g,nm('a')).replace(/@b/g,nm('b'))}
+  function areaName(k){
+    var all=AREAS.concat(USAREAS);
+    for(var i=0;i<all.length;i++)if(all[i].k===k)return all[i].n;
+    return '';
+  }
+
+  function items(w,cad){
+    return state.items.filter(function(it){
+      return it.cadence===cad && (it.owner===w||it.owner==='both')});
+  }
+  function ck(key){return !!state.chk[key]}
+  function tick(key){if(state.chk[key])delete state.chk[key];else state.chk[key]=1;save()}
+  function dKey(n,id,w){return 'd'+n+'|'+id+'|'+w}
+  function wKey(week,id,w){return 'w'+week+'|'+id+'|'+w}
+  function mKey(id,w){return 'm|'+id+'|'+w}
+
+  function dayDone(n,w){
+    var list=items(w,'daily');if(!list.length)return false;
+    var f=isFlex(n);
+    for(var i=0;i<list.length;i++){
+      var it=list[i];
+      if(ck(dKey(n,it.id,w)))continue;
+      if(f&&it.flex!==false)continue;
+      return false;
+    }
+    return true;
+  }
+  function dayRatio(n,w){
+    var list=items(w,'daily');if(!list.length)return 0;
+    var f=isFlex(n),c=0;
+    list.forEach(function(it){if(ck(dKey(n,it.id,w))||(f&&it.flex!==false))c++});
+    return c/list.length;
+  }
+
+  var store={
+    get:function(k){
+      if(window.storage&&window.storage.get)return window.storage.get(k);
+      return new Promise(function(res,rej){
+        try{var v=localStorage.getItem(k);v?res({key:k,value:v}):rej(new Error('empty'))}
+        catch(e){rej(e)}
+      });
+    },
+    set:function(k,v){
+      if(window.storage&&window.storage.set)return window.storage.set(k,v);
+      return new Promise(function(res,rej){
+        try{localStorage.setItem(k,v);res({key:k,value:v})}catch(e){rej(e)}
+      });
+    }
+  };
+
+  function save(){clearTimeout(t);t=setTimeout(function(){
+    try{store.set(KEY,JSON.stringify(state)).then(function(){flash('Saved')})
+      .catch(function(){flash('Not saved — try again')})}
+    catch(e){flash('Not saved — try again')}},400)}
+  function flash(m){var e=document.getElementById('status');e.textContent=m;
+    setTimeout(function(){if(e.textContent===m)e.textContent=''},1500)}
+  function load(){return new Promise(function(res){var done=false;
+    var fin=function(v){if(!done){done=true;res(v)}};
+    try{store.get(KEY).then(function(r){
+      if(r&&r.value){try{fin(JSON.parse(r.value));return}catch(e){}}fin(null)})
+      .catch(function(){fin(null)})}catch(e){fin(null)}
+    setTimeout(function(){fin(null)},3000)})}
+
+  var WORDS=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven',
+    'twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty',
+    'twenty-one','twenty-two','twenty-three','twenty-four','twenty-five','twenty-six',
+    'twenty-seven','twenty-eight','twenty-nine','thirty'];
+
+  /* ---------------- header + weekly reset ----------------
+     Everything below this point used to also be a second, clickable tracker
+     (a sun grid, daily/weekly/monthly checklists, target/plan/reality
+     read-outs) duplicating what Todoist plus the React tracker now own,
+     writing to a separate localStorage tick store nothing else ever reads.
+     It also called an RS() helper that was never defined anywhere in this
+     file, so it silently threw on every load and broke everything after it.
+     Replaced below with just what genuinely has no other home: the header
+     line and the weekly reset (four questions, flex day, done/not-done). */
+  function renderHeader(){
+    var el=document.getElementById('counter'),s=document.getElementById('sub'),c1=cur();
+    if(c1<1){
+      var away=1-c1;
+      el.textContent='Not started';
+      s.textContent='Day one is '+fmt(dateOf(1))+' — '+away+' day'+(away===1?'':'s')+' to get the plan built.';
+    }
+    else if(c1>30){el.textContent='Thirty days';s.textContent='Finished '+fmt(dateOf(30))+'. Go collect the reward.'}
+    else{el.textContent='Day '+(WORDS[c1]||c1);s.textContent=fmt(dateOf(c1))+' · '+(30-c1)+' to go'}
+    var ready=state.items.length>0;
+    document.getElementById('openHub').textContent=ready?'Edit the plan':'Build the plan';
+    document.getElementById('planHint').textContent=ready?
+      'Tick the actual days in Todoist — the tracker at your deployed link shows the grid, targets and progress.':
+      'Nothing built yet. Tap the button above to walk through it — about ten minutes, together.';
+  }
+
+  var RESETQ=[
+    {k:'missed',q:'Missed more than twice this week',
+     p:'Name the items. They are in the wrong spot, not a sign of weak will - move or cut them.'},
+    {k:'moved',q:'What actually moved on the targets',
+     p:'The thing, not the effort.'},
+    {k:'together',q:'Together which days next week',
+     p:'Say them out loud, then put them in both calendars.'},
+    {k:'asks',q:'One thing each of us wants more of',
+     p:'A line each. The question everyone skips.'}
+  ];
+
+  function RS(w){if(!state.reset[w])state.reset[w]={};return state.reset[w]}
+
+  function renderWkNav(){
+    var host=document.getElementById('wknav');host.innerHTML='';
+    for(var w=1;w<=5;w++){
+      var b=document.createElement('button');
+      b.className='oc-wk'+(w===wk?' on':'');
+      b.textContent=w===5?'Final':'Wk '+w;
+      b.addEventListener('click',function(ww){return function(){wk=ww;renderReset()}}(w));
+      host.appendChild(b);
+    }
+  }
+
+  function renderFlexSel(){
+    var lo=(wk-1)*7+1,hi=Math.min(30,wk*7);
+    var sel2=document.getElementById('flexsel');
+    var cur2=state.flex[wk];
+    sel2.innerHTML='<option value="">No flex day picked</option>';
+    if(wk===5){sel2.disabled=true;return}
+    sel2.disabled=false;
+    for(var n=lo;n<=hi;n++){
+      var o=document.createElement('option');
+      o.value=n;o.textContent=fmt(dateOf(n));
+      if(cur2===n)o.selected=true;
+      sel2.appendChild(o);
+    }
+  }
+
+  function renderReset(){
+    document.getElementById('resetWk').textContent=
+      (wk===5?'Final stretch':'Week '+wk)+' reset';
+    renderWkNav();
+    var r=RS(wk),host=document.getElementById('resetFields');
+    host.innerHTML='';
+    RESETQ.forEach(function(q){
+      var wrap=document.createElement('div');
+      wrap.style.marginBottom='12px';
+      wrap.innerHTML='<label class="oc-lab" for="rs_'+q.k+'">'+q.q+'</label>'+
+        '<textarea class="oc-note" id="rs_'+q.k+'" style="margin-top:0" placeholder="'+
+        esc(q.p)+'"></textarea>';
+      var ta=wrap.querySelector('textarea');
+      ta.value=r[q.k]||'';
+      ta.addEventListener('input',function(){r[q.k]=this.value;save()});
+      host.appendChild(wrap);
+    });
+    var b=document.getElementById('resetDone');
+    b.className='oc-togday'+(r.done?' on':'');
+    b.textContent=r.done?'☀ Reset done':'○ Reset not done yet';
+    document.getElementById('resetAfter').style.display=r.done?'':'none';
+    renderFlexSel();
+  }
+
+  function all(){renderHeader();renderReset()}
+
+  /* ---------------- wizard ---------------- */
+  var gw=document.getElementById('gw'),gwBody=document.getElementById('gwBody'),
+      gwChapEl=document.getElementById('gwChap'),gwBar=document.getElementById('gwBar');
+
+  function chapLen(c){
+    if(c==='real')return REAL.length;
+    if(c==='a'||c==='b')return AREAS.length+GOALQ.length;
+    if(c==='us')return USAREAS.length+USQ.length;
+    if(c==='sort')return 3;
+    if(c==='export')return 1;
+    return 0;
+  }
+  function chapTitle(c){
+    if(c==='real')return 'Your reality';
+    if(c==='a')return nm('a')+'\u2019s list';
+    if(c==='b')return nm('b')+'\u2019s list';
+    if(c==='us')return 'The shared list';
+    if(c==='export')return 'Send to Todoist';
+    return 'Sort it out';
+  }
+  function ownerOf(c){return c==='us'?'both':c}
+
+  function openWiz(c,s){
+    chap=c===undefined?null:c;step=s||0;
+    document.querySelector('.oc-root').style.display='none';
+    gw.classList.add('open');
+    draw();
+    try{window.scrollTo(0,0)}catch(e){}
+  }
+  function closeWiz(){
+    gw.classList.remove('open');
+    document.querySelector('.oc-root').style.display='';
+    all();
+    try{window.scrollTo(0,0)}catch(e){}
+  }
+
+  function addItem(text,area,owner){
+    text=(text||'').trim();if(!text)return;
+    state.items.push({id:state.seq++,text:text,area:area,owner:owner,cadence:'later',
+      flex:true,time:'',dur:'',wday:'',mday:''});
+    save();
+  }
+  function findItem(text,area,owner){
+    for(var i=0;i<state.items.length;i++){
+      var it=state.items[i];
+      if(it.area===area&&it.text===text&&it.owner===owner)return i;
+    }
+    return -1;
+  }
+  function dropItem(idx){
+    var id=state.items[idx].id;
+    state.items.splice(idx,1);
+    Object.keys(state.chk).forEach(function(k){
+      if(k.split('|')[1]===String(id))delete state.chk[k]});
+    save();
+  }
+
+  function nav(nextLabel,skip){
+    return '<div class="gw-nav">'+
+      '<button class="gw-back" id="gwBack">Back</button>'+
+      '<button class="gw-next" id="gwNext">'+nextLabel+'</button></div>'+
+      (skip?'<button class="gw-skip" id="gwSkip">'+skip+'</button>':'');
+  }
+  function wireNav(){
+    document.getElementById('gwBack').addEventListener('click',function(){
+      if(step===0){chap=null;step=0}else step--;draw()});
+    document.getElementById('gwNext').addEventListener('click',function(){step++;draw()});
+    var s=document.getElementById('gwSkip');
+    if(s)s.addEventListener('click',function(){step++;draw()});
+  }
+
+  function draw(){
+    if(chap===null){
+      if(!(state.names.a||'').trim()||!(state.names.b||'').trim()){drawStart();return}
+      drawHub();return;
+    }
+    var len=chapLen(chap);
+    gwBar.style.width=Math.round(100*Math.min(step,len)/len)+'%';
+    if(step>=len){
+      if(chap==='sort'){drawSeal();return}
+      drawChapEnd();return;
+    }
+    if(chap==='real'){
+      drawForm(REAL[step],R(REAL[step].k),'Your reality · '+(step+1)+' of '+REAL.length,
+        step===REAL.length-1?'Done with this bit':'Next','Skip this one');
+      return;
+    }
+    if(chap==='export'){drawExport();return}
+    if(chap==='sort'){
+      if(step===0)drawAssign();
+      else if(step===1)drawSlots();
+      else drawLoad();
+      return;
+    }
+    if(chap==='us'){
+      if(step<USAREAS.length){
+        drawArea(USAREAS[step],USAREAS,'both',
+          step===USAREAS.length-1?'Now the pact':'Next area');
+        return;
+      }
+      var ui=step-USAREAS.length;
+      drawForm(USQ[ui],state.pact,'The pact · '+(ui+1)+' of '+USQ.length,
+        ui===USQ.length-1?'Finish this list':'Next','Skip');
+      return;
+    }
+    if(step<AREAS.length){
+      drawArea(AREAS[step],AREAS,chap,step===AREAS.length-1?'Now the target':'Next area');
+      return;
+    }
+    var gi=step-AREAS.length;
+    drawForm(GOALQ[gi],G(chap),'The target · '+(gi+1)+' of '+GOALQ.length,
+      gi===GOALQ.length-1?'Finish this list':'Next','Skip');
+  }
+
+  function drawStart(){
+    gwChapEl.textContent='Before we start';
+    gwBar.style.width='0%';
+    gwBody.innerHTML=
+      '<h2 class="gw-q">Names and Day 1</h2>'+
+      '<p class="gw-hint">Two names and the date the thirty days begins. Everything after this screen is written using them, so it comes first.</p>'+
+      '<div class="oc-row3" style="margin-bottom:20px">'+
+        '<div><label class="oc-lab" for="swA">Name 1</label><input class="oc-in" id="swA" placeholder="Him"></div>'+
+        '<div><label class="oc-lab" for="swB">Name 2</label><input class="oc-in" id="swB" placeholder="Her"></div>'+
+        '<div><label class="oc-lab" for="swStart">Day 1</label><input class="oc-in" id="swStart" type="date"></div>'+
+      '</div>'+
+      '<p class="gw-hint" id="swMsg" style="min-height:18px;margin:0 0 8px"></p>'+
+      '<div class="gw-nav"><button class="gw-next" id="swGo">Continue</button></div>';
+    var a=document.getElementById('swA'),b=document.getElementById('swB'),d=document.getElementById('swStart');
+    a.value=state.names.a||'';b.value=state.names.b||'';d.value=state.start||firstOfNextMonth();
+    if(!state.start){state.start=d.value;save()}
+    a.addEventListener('input',function(){state.names.a=a.value;save()});
+    b.addEventListener('input',function(){state.names.b=b.value;save()});
+    d.addEventListener('change',function(){if(d.value){state.start=d.value;save()}});
+    var msg=document.getElementById('swMsg');
+    document.getElementById('swGo').addEventListener('click',function(){
+      if(!a.value.trim()||!b.value.trim()){msg.textContent='Add both names first.';return}
+      if(!d.value){msg.textContent='Pick a start date first.';return}
+      sel=Math.min(30,Math.max(1,cur()));wk=weekOf(sel);
+      draw();
+    });
+  }
+
+  function drawHub(){
+    gwChapEl.textContent='Build the plan';
+    gwBar.style.width='0%';
+    function itemCount(o){return state.items.filter(function(i){return i.owner===o}).length}
+    var realTotal=0,realGot=0;
+    REAL.forEach(function(r){r.f.forEach(function(f){
+      realTotal++;if(((R(r.k)[f.k])||'').trim())realGot++})});
+    var unsorted=state.items.filter(function(i){return i.cadence==='later'}).length;
+    var noslot=state.items.filter(function(i){
+      return i.cadence!=='later'&&!(i.time||'').trim()}).length;
+
+    var cards=[
+      {c:'real',d:'Six questions about the weeks you actually have. Do this first — everything else gets checked against it.',
+       st:realGot?(realGot===realTotal?'Complete':realGot+' of '+realTotal):'Start here',
+       full:realGot===realTotal},
+      {c:'a',d:'Nine areas swept for the small things worth staying consistent with, then the one target for the month.',
+       st:itemCount('a')?itemCount('a')+' picked':'Empty',full:itemCount('a')>0},
+      {c:'b',d:'The same nine areas and one target, from the other side.',
+       st:itemCount('b')?itemCount('b')+' picked':'Empty',full:itemCount('b')>0},
+      {c:'us',d:'Three areas that belong to the two of you, then the rule you don\u2019t break.',
+       st:itemCount('both')?itemCount('both')+' picked':'Empty',full:itemCount('both')>0},
+      {c:'sort',d:'Decide daily, weekly or monthly for everything, give it a time slot, then check it against the five-a-day cap.',
+       st:state.items.length?(unsorted?unsorted+' to sort':'All sorted'):'Nothing yet',
+       full:state.items.length>0&&!unsorted},
+      {c:'export',d:'Turn the finished plan into three blocks you can paste straight into Todoist.',
+       st:noslot?noslot+' without a time':(state.items.length?'Ready':'Nothing yet'),
+       full:state.items.length>0&&!noslot}
+    ];
+    var h='<h2 class="gw-q">Before day one</h2>'+
+      '<p class="gw-hint">Six stages. Two of them are private — one list each — and the rest you do '+
+      'together. It works best side by side, in one sitting, with something to drink.</p>';
+    cards.forEach(function(x){
+      h+='<button class="gw-pick'+(x.full?' full':'')+'" data-c="'+x.c+'">'+
+        '<h3>'+esc(chapTitle(x.c))+'</h3><p>'+x.d+'</p>'+
+        '<span class="gw-pick-st">'+esc(x.st)+'</span></button>';
+    });
+    h+='<button class="gw-skip" id="gwCloseHub">Close and look at the tracker</button>';
+    gwBody.innerHTML=h;
+    Array.prototype.forEach.call(gwBody.querySelectorAll('button[data-c]'),function(b){
+      b.addEventListener('click',function(){chap=this.dataset.c;step=0;draw()});
+    });
+    document.getElementById('gwCloseHub').addEventListener('click',closeWiz);
+  }
+
+  function drawForm(spec,store,label,nextLabel,skipLabel){
+    gwChapEl.textContent=label;
+    var h='<h2 class="gw-q">'+esc(tok(spec.q))+'</h2><p class="gw-sub">'+spec.sub+'</p>'+
+          '<p class="gw-hint">'+spec.hint+'</p>';
+    spec.f.forEach(function(fl,i){
+      h+='<div class="gw-f"><label for="rf'+i+'">'+esc(tok(fl.lab))+'</label>';
+      h+= fl.t==='area'
+        ? '<textarea id="rf'+i+'" data-k="'+fl.k+'" placeholder="'+esc(fl.ph)+'"></textarea>'
+        : '<input id="rf'+i+'" data-k="'+fl.k+'" placeholder="'+esc(fl.ph)+'">';
+      h+='</div>';
+    });
+    h+=nav(nextLabel,skipLabel);
+    gwBody.innerHTML=h;
+    Array.prototype.forEach.call(gwBody.querySelectorAll('[data-k]'),function(el){
+      el.value=store[el.dataset.k]||'';
+      el.addEventListener('input',function(){store[this.dataset.k]=this.value;save()});
+    });
+    wireNav();
+  }
+
+  function drawArea(a,set,owner,lastLabel){
+    var i=set.indexOf(a);
+    gwChapEl.textContent=chapTitle(chap)+' · '+(i+1)+' of '+set.length;
+    var mine=state.items.filter(function(x){return x.area===a.k&&x.owner===owner});
+    var h='<h2 class="gw-q">'+a.q+'</h2><p class="gw-sub">'+a.sub+'</p>'+
+          '<p class="gw-hint">'+a.hint+'</p><div class="gw-chips">';
+    a.s.forEach(function(s){
+      h+='<button class="gw-chip'+(findItem(s,a.k,owner)>=0?' on':'')+
+         '" data-s="'+esc(s)+'">'+esc(s)+'</button>';
+    });
+    h+='</div><div class="gw-add"><input id="gwAddIn" placeholder="Something of your own…">'+
+       '<button id="gwAddBtn">Add</button></div>';
+    if(mine.length){
+      h+='<p class="gw-hint" style="margin-bottom:8px"><strong>'+mine.length+
+         ' here.</strong> Who and how often comes later — just collect for now.</p>';
+    }
+    h+=nav(i===set.length-1?(lastLabel||'Finish this list'):'Next area','Nothing here');
+    gwBody.innerHTML=h;
+
+    Array.prototype.forEach.call(gwBody.querySelectorAll('.gw-chip'),function(c){
+      c.addEventListener('click',function(){
+        var txt=this.dataset.s,idx=findItem(txt,a.k,owner);
+        if(idx>=0)dropItem(idx);else addItem(txt,a.k,owner);
+        draw();
+      });
+    });
+    var inp=document.getElementById('gwAddIn'),btn=document.getElementById('gwAddBtn');
+    var doAdd=function(){if(inp.value.trim()){addItem(inp.value,a.k,owner);inp.value='';draw()}};
+    btn.addEventListener('click',doAdd);
+    inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();doAdd()}});
+    wireNav();
+  }
+
+  function drawChapEnd(){
+    var owner=ownerOf(chap);
+    var n=chap==='real'
+      ? 0
+      : state.items.filter(function(i){return i.owner===owner}).length;
+    gwChapEl.textContent='Done';
+    var msg = chap==='real'
+      ? 'That is the constraint map. Every item you pick from here on gets checked against it.'
+      : n+' thing'+(n===1?'':'s')+' collected. None of it is daily, weekly or monthly yet — that happens in '+
+        'the last stage, once all three lists exist.';
+    gwBody.innerHTML='<div class="gw-seal"><div class="gw-seal-sun"></div>'+
+      '<h2>'+esc(chapTitle(chap))+'</h2><p>'+msg+'</p>'+
+      '<div class="gw-nav"><button class="gw-back" id="gwBackE">Back</button>'+
+      '<button class="gw-next" id="gwHub">Back to the stages</button></div></div>';
+    document.getElementById('gwBackE').addEventListener('click',function(){step--;draw()});
+    document.getElementById('gwHub').addEventListener('click',function(){chap=null;step=0;draw()});
+  }
+
+  function drawAssign(){
+    gwChapEl.textContent='How often · 1 of 2';
+    if(!state.items.length){
+      gwBody.innerHTML='<h2 class="gw-q">Nothing to sort</h2>'+
+        '<p class="gw-hint">The lists are empty. Go back to the stages and sweep a few areas — '+
+        'three or four items each is enough to start.</p>'+
+        '<div class="gw-nav"><button class="gw-next" id="gwHub2">Back to the stages</button></div>';
+      document.getElementById('gwHub2').addEventListener('click',function(){chap=null;draw()});
+      return;
+    }
+    gwBody.innerHTML='<h2 class="gw-q">How often?</h2>'+
+      '<p class="gw-hint">One tap each. <strong>Daily</strong> is for cheap things that lose their '+
+      'meaning when skipped. <strong>Weekly</strong> is for anything needing a real slot — that is '+
+      'where most items belong. <strong>Park</strong> anything you are unsure about; parked items stay '+
+      'on the list without cluttering the day.</p>'+
+      '<div class="gw-count" id="gwCount"></div><div id="gwRows"></div>'+
+      nav('Check the load',null);
+    var rows=document.getElementById('gwRows');
+    function paintCount(){
+      document.getElementById('gwCount').textContent='Daily — '+nm('a')+': '+
+        items('a','daily').length+'  ·  '+nm('b')+': '+items('b','daily').length;
+    }
+    function rowFor(it){
+      var d=document.createElement('div');
+      d.className='gw-arow'+(it.cadence==='later'?' park':'');
+      d.innerHTML='<div class="gw-atop"><div class="gw-atext">'+esc(it.text)+
+        '<small>'+esc(areaName(it.area))+' · '+
+        esc(it.owner==='both'?'shared':nm(it.owner))+'</small></div>'+
+        '<button class="gw-del" aria-label="Remove">✕</button></div>'+
+        '<div class="gw-seg" data-t="cadence">'+
+          '<button data-v="daily">Day</button><button data-v="weekly">Week</button>'+
+          '<button data-v="monthly">Month</button><button data-v="later">Park</button></div>'+
+        '<div class="gw-seg" data-t="owner">'+
+          '<button data-v="a">'+esc(nm('a'))+'</button>'+
+          '<button data-v="b">'+esc(nm('b'))+'</button>'+
+          '<button data-v="both">Both</button></div>'+
+        (it.cadence==='daily'?'<button class="gw-fx">'+
+          (it.flex===false?'Never skips, even on a flex day':'Can be skipped on the flex day')+
+          '</button>':'');
+      Array.prototype.forEach.call(d.querySelectorAll('.gw-seg'),function(seg){
+        var tp=seg.dataset.t;
+        Array.prototype.forEach.call(seg.querySelectorAll('button'),function(b){
+          if(it[tp]===b.dataset.v)b.className='on';
+          b.addEventListener('click',function(){
+            it[tp]=this.dataset.v;save();
+            rows.replaceChild(rowFor(it),d);paintCount();
+          });
+        });
+      });
+      var fx=d.querySelector('.gw-fx');
+      if(fx)fx.addEventListener('click',function(){
+        it.flex=(it.flex===false);save();rows.replaceChild(rowFor(it),d)});
+      d.querySelector('.gw-del').addEventListener('click',function(){
+        var i=state.items.indexOf(it);
+        if(i>=0){dropItem(i);rows.removeChild(d);paintCount()}
+      });
+      return d;
+    }
+    ['a','b','both'].forEach(function(o){
+      state.items.filter(function(i){return i.owner===o})
+        .forEach(function(it){rows.appendChild(rowFor(it))});
+    });
+    paintCount();
+    wireNav();
+  }
+
+  var WDAY=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  var WDAYN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  function liveItems(){
+    return state.items.filter(function(i){return i.cadence!=='later'});
+  }
+
+  function drawSlots(){
+    gwChapEl.textContent='Slots · 2 of 3';
+    var live=liveItems();
+    if(!live.length){
+      gwBody.innerHTML='<h2 class="gw-q">Nothing to schedule</h2>'+
+        '<p class="gw-hint">Everything is parked. Go back a screen and mark a few items daily, weekly or monthly.</p>'+
+        nav('Skip ahead',null);
+      wireNav();return;
+    }
+    gwBody.innerHTML='<h2 class="gw-q">When, exactly?</h2>'+
+      '<p class="gw-hint">A time is what makes Todoist send a reminder, so an item without one will '+
+      'sit there silently and get missed. It is also the step that turns a list into a plan. '+
+      'Put the hardest one in the best hour you named earlier, and anything physical before dinner.</p>'+
+      '<div id="gwSlots"></div>'+nav('Check the load',null);
+    var host=document.getElementById('gwSlots');
+
+    live.forEach(function(it){
+      var d=document.createElement('div');d.className='gw-arow';
+      var when=it.cadence==='daily'?'every day'
+        :it.cadence==='weekly'?'every week':'once this month';
+      var h='<div class="gw-atop"><div class="gw-atext">'+esc(it.text)+
+        '<small>'+esc(it.owner==='both'?'shared':nm(it.owner))+' · '+when+'</small></div></div>'+
+        '<div class="gw-slotrow">'+
+          '<input type="time" data-f="time" aria-label="Time">'+
+          '<input type="number" data-f="dur" min="5" max="240" step="5" placeholder="min" aria-label="Minutes">';
+      if(it.cadence==='weekly'){
+        h+='<select data-f="wday" aria-label="Day of week">';
+        WDAYN.forEach(function(n,i){h+='<option value="'+i+'">'+n+'</option>'});
+        h+='</select>';
+      } else if(it.cadence==='monthly'){
+        h+='<select data-f="mday" aria-label="Day of the month">';
+        for(var k=1;k<=30;k++)h+='<option value="'+k+'">Day '+k+'</option>';
+        h+='</select>';
+      }
+      h+='</div>';
+      d.innerHTML=h;
+      Array.prototype.forEach.call(d.querySelectorAll('[data-f]'),function(el){
+        var f=el.dataset.f;
+        if(it[f]!==''&&it[f]!==undefined&&it[f]!==null)el.value=it[f];
+        el.addEventListener('change',function(){it[f]=this.value;save()});
+        el.addEventListener('input',function(){it[f]=this.value;save()});
+      });
+      host.appendChild(d);
+    });
+    wireNav();
+  }
+
+  function exportFor(w){
+    var out=[],cads=['daily','weekly','monthly'];
+    cads.forEach(function(cad){
+      items(w,cad).forEach(function(it){
+        var rec = cad==='daily' ? 'DAILY'
+          : cad==='weekly' ? 'WEEKLY:'+(WDAY[it.wday||0])
+          : 'MONTHLY:'+(it.mday||1);
+        out.push([it.text.replace(/\|/g,'/'),(it.time||'09:00'),(it.dur||30),rec].join(' | '));
+      });
+    });
+    return out.join('\n');
+  }
+
+  function pad2(n){return n<10?'0'+n:''+n}
+  function isoOf(n){var d=dateOf(n);
+    return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate())}
+
+  /**
+   * Daily items owned "both" go into EACH person's own block, never the
+   * shared one: Todoist can only mark one task done once, so a single
+   * shared task could never record that both people did it separately.
+   * Weekly/monthly "both" items go the other way — into the shared "Ours"
+   * block only, since those aren't tracked by the sync at all (see
+   * scripts/sync.mjs, which skips anything that isn't cadence:daily), so a
+   * single joint reminder is exactly right for them.
+   */
+  function exportTodoist(owner){
+    var out=[];
+    ['daily','weekly','monthly'].forEach(function(cad){
+      state.items.filter(function(i){
+        if(i.cadence!==cad)return false;
+        if(owner==='both')return i.owner==='both'&&cad!=='daily';
+        if(cad==='daily')return i.owner===owner||i.owner==='both';
+        return i.owner===owner;
+      })
+      .forEach(function(it){
+        var time=(it.time||'').trim(), at=time?' at '+time:'';
+        var line;
+        if(cad==='daily') line=it.text+' every day'+at;
+        else if(cad==='weekly') line=it.text+' every '+
+          WDAYN[it.wday||0].toLowerCase()+at;
+        else line=it.text+' '+isoOf(+it.mday||1)+at;
+        out.push(line);
+      });
+    });
+    return out.join('\n');
+  }
+
+  function drawExport(){
+    gwChapEl.textContent='Send to Todoist';
+    if(!liveItems().length){
+      gwBody.innerHTML='<h2 class="gw-q">Nothing to send</h2>'+
+        '<p class="gw-hint">Build the lists and sort them into daily, weekly or monthly first.</p>'+
+        '<div class="gw-nav"><button class="gw-next" id="gwHub3">Back to the stages</button></div>';
+      document.getElementById('gwHub3').addEventListener('click',function(){chap=null;draw()});
+      return;
+    }
+    var blocks=[['a',nm('a')],['b',nm('b')],['both','Ours']];
+    var h='<h2 class="gw-q">Send to Todoist</h2>'+
+      '<p class="gw-hint">Three projects, three blocks. Open a project in Todoist, paste a whole '+
+      'block into quick add, and it creates every task with its recurrence and time. '+
+      '<strong>'+esc(nm('a'))+'’s and '+esc(nm('b'))+'’s projects stay private to each of you</strong> '+
+      '— daily items you do together already appear on both lists below, as two separate tasks, '+
+      'so each of you ticks your own. Only share the <strong>Ours</strong> project with each other; '+
+      'it just holds the weekly/monthly things that are genuinely joint.</p>';
+    blocks.forEach(function(b){
+      var txt=exportTodoist(b[0]);
+      if(!txt){
+        h+='<p class="gw-oh">'+esc(b[1])+'</p>'+
+           '<p class="gw-hint">Nothing on this list yet.</p>';
+        return;
+      }
+      h+='<p class="gw-oh">'+esc(b[1])+'</p>'+
+         '<textarea class="gw-out" id="out_'+b[0]+'" readonly>'+esc(txt)+'</textarea>'+
+         '<button class="gw-copy" data-c="'+b[0]+'" data-n="'+esc(b[1])+'">Copy</button>';
+    });
+    h+='<div class="gw-warn"><strong>Times are what make the reminders work.</strong> '+
+       'Todoist\u2019s free plan fires a reminder automatically when a task has a date and a time, '+
+       'so anything you left without a slot will sit there silently and get missed.</div>'+
+       '<div class="gw-warn"><strong>Re-paste when the plan changes.</strong> Editing here doesn\u2019t '+
+       'touch Todoist. Delete the changed tasks there and paste the block again \u2014 which is a job '+
+       'for a reset, not a Wednesday.</div>'+
+       '<div class="gw-nav"><button class="gw-back" id="gwBackX">Back</button>'+
+       '<button class="gw-next" id="gwDoneX">Done</button></div>';
+    gwBody.innerHTML=h;
+    Array.prototype.forEach.call(gwBody.querySelectorAll('[data-c]'),function(b){
+      b.addEventListener('click',function(){
+        var ta=document.getElementById('out_'+this.dataset.c),btn=this;
+        ta.select();
+        var ok=false;
+        try{ok=document.execCommand('copy')}catch(e){}
+        if(!ok&&navigator.clipboard){navigator.clipboard.writeText(ta.value);ok=true}
+        btn.textContent=ok?'Copied':'Select and copy manually';
+        setTimeout(function(){btn.textContent='Copy'},1800);
+      });
+    });
+    document.getElementById('gwBackX').addEventListener('click',function(){chap=null;step=0;draw()});
+    document.getElementById('gwDoneX').addEventListener('click',closeWiz);
+  }
+
+  function drawLoad(){
+    gwChapEl.textContent='Load · 3 of 3';
+    var da=items('a','daily').length,db=items('b','daily').length,
+        wa=items('a','weekly').length,wb=items('b','weekly').length,
+        ma=items('a','monthly').length,mb=items('b','monthly').length,
+        park=state.items.filter(function(i){return i.cadence==='later'}).length,
+        shared=state.items.filter(function(i){return i.owner==='both'&&i.cadence!=='later'}).length;
+    var warn='';
+    if(da>5||db>5){
+      warn+='<div class="gw-warn"><strong>Too many daily items.</strong> '+
+        (da>5?nm('a')+' has '+da+'. ':'')+(db>5?nm('b')+' has '+db+'. ':'')+
+        'Five is the ceiling. Above it you start negotiating with yourself every evening, and the '+
+        'negotiation is what kills it. Move the two least important into the week — they will '+
+        'actually happen there.</div>';
+    }
+    if(!da||!db){
+      warn+='<div class="gw-warn"><strong>One of you has an empty day.</strong> '+
+        'If only one person has daily items, the shared grid stops meaning anything. Even one or '+
+        'two each is enough.</div>';
+    }
+    if(!shared){
+      warn+='<div class="gw-warn"><strong>Nothing shared is live.</strong> '+
+        'Two people optimising separately for thirty days is not the same as doing this together. '+
+        'One daily shared item and one weekly one is plenty.</div>';
+    }
+    if(!warn){
+      warn='<div class="gw-warn"><strong>This looks survivable.</strong> Which is the right bar — '+
+        'not ambitious, survivable. If it still feels light in week two, add something at a '+
+        'weekly reset.</div>';
+    }
+    gwBody.innerHTML='<h2 class="gw-q">Does it fit?</h2>'+
+      '<p class="gw-hint">The test isn\u2019t whether you like the list. It\u2019s whether it survives '+
+      'the worst week either of you is likely to have this month.</p>'+warn+
+      '<p class="gw-hint"><strong>'+esc(nm('a'))+'</strong> — '+da+' daily, '+wa+' weekly, '+ma+
+      ' monthly.<br><strong>'+esc(nm('b'))+'</strong> — '+db+' daily, '+wb+' weekly, '+mb+
+      ' monthly.<br>'+shared+' shared, '+park+' parked.</p>'+
+      nav('Done','Back to sorting');
+    wireNav();
+    var s=document.getElementById('gwSkip');
+    if(s)s.onclick=function(){step=0;draw()};
+  }
+
+  function drawSeal(){
+    gwChapEl.textContent='Ready';
+    var live=state.items.filter(function(i){return i.cadence!=='later'}).length;
+    var c=cur(),lead=c<1?(1-c):0;
+    gwBody.innerHTML='<div class="gw-seal"><div class="gw-seal-sun"></div>'+
+      '<h2>'+live+' thing'+(live===1?'':'s')+'</h2>'+
+      '<p>Every one on somebody\u2019s list, sorted daily, weekly or monthly, sized against the weeks you '+
+      'actually have.'+(lead?' Day one is in '+lead+' day'+(lead===1?'':'s')+' — plenty of time to '+
+      'change your mind about any of it.':'')+'</p>'+
+      '<div class="gw-nav"><button class="gw-back" id="gwBackS">Back</button>'+
+      '<button class="gw-next" id="gwDone">Open the tracker</button></div></div>';
+    document.getElementById('gwBackS').addEventListener('click',function(){step--;draw()});
+    document.getElementById('gwDone').addEventListener('click',closeWiz);
+  }
+
+  document.getElementById('gwClose').addEventListener('click',function(){
+    if(chap!==null){chap=null;step=0;draw()}else closeWiz()});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&gw.classList.contains('open'))closeWiz()});
+
+  /* ---------------- wiring ---------------- */
+  function bind(id,get,set){
+    var el=document.getElementById(id);el.value=get()||'';
+    el.addEventListener('input',function(){set(el.value);save()});
+  }
+
+  function init(){
+    bind('nameA',function(){return state.names.a},function(v){state.names.a=v;all()});
+    bind('nameB',function(){return state.names.b},function(v){state.names.b=v;all()});
+
+    var st=document.getElementById('start');st.value=state.start;
+    st.addEventListener('change',function(){if(st.value){state.start=st.value;save();
+      sel=Math.min(30,Math.max(1,cur()));wk=weekOf(sel);all()}});
+
+    document.getElementById('resetDone').addEventListener('click',function(){
+      var r=RS(wk);r.done=r.done?0:1;save();renderReset()});
+    document.getElementById('flexsel').addEventListener('change',function(){
+      if(this.value==='')delete state.flex[wk];else state.flex[wk]=+this.value;
+      save()});
+
+    document.getElementById('openHub').addEventListener('click',function(){openWiz(null,0)});
+    document.getElementById('editReal').addEventListener('click',function(){openWiz('real',0)});
+
+    function doBackup(){
+      try{
+        var blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+        var a=document.createElement('a');
+        a.href=URL.createObjectURL(blob);
+        a.download='thirty-days-'+state.start+'.json';
+        document.body.appendChild(a);a.click();document.body.removeChild(a);
+        flash('Backup downloaded');
+      }catch(e){flash('Backup failed')}
+    }
+    document.getElementById('backup').addEventListener('click',doBackup);
+    document.getElementById('backupReset').addEventListener('click',doBackup);
+    var rf=document.getElementById('restoreFile');
+    document.getElementById('restore').addEventListener('click',function(){rf.click()});
+    rf.addEventListener('change',function(){
+      var f=this.files&&this.files[0];if(!f)return;
+      var fr=new FileReader();
+      fr.onload=function(){
+        try{
+          var v=JSON.parse(fr.result);
+          if(!v||!v.items)throw new Error('not a backup');
+          if(!confirm('Replace everything currently in the app with this backup?'))return;
+          state=v;
+          ['names','goals','pact','real','reset','chk','days','flex'].forEach(function(k){
+            if(!state[k])state[k]={}});
+          if(!state.items)state.items=[];
+          if(!state.seq)state.seq=state.items.length+1;
+          if(!state.start)state.start=firstOfNextMonth();
+          document.getElementById('start').value=state.start;
+          sel=Math.min(30,Math.max(1,cur()));wk=weekOf(sel);
+          save();all();flash('Restored');
+        }catch(e){flash('That file did not load')}
+      };
+      fr.readAsText(f);
+      this.value='';
+    });
+
+    document.getElementById('reset').addEventListener('click',function(){
+      if(!confirm('Clear every tick, note and flex day? The plan and your answers are kept.'))return;
+      state.chk={};state.days={};state.flex={};
+      sel=Math.min(30,Math.max(1,cur()));wk=weekOf(sel);save();all();flash('Cleared')});
+
+    sel=Math.min(30,Math.max(1,cur()));wk=weekOf(sel);all();
+    if(!state.items.length)openWiz(null,0);
+  }
+
+  load().then(function(l){
+    state=l||blank();
+    if(!state.names)state.names={a:'',b:''};
+    if(!state.real)state.real={};
+    if(!state.goals)state.goals={a:{},b:{}};
+    if(!state.goals.a)state.goals.a={};
+    if(!state.goals.b)state.goals.b={};
+    if(!state.pact)state.pact={};
+    if(!state.reset)state.reset={};
+    if(!state.items)state.items=[];
+    if(!state.seq)state.seq=state.items.length+1;
+    if(!state.chk)state.chk={};
+    if(!state.days)state.days={};
+    if(!state.flex)state.flex={};
+    if(!state.start)state.start=firstOfNextMonth();
+    init();
+  });
+})();
+</script>
