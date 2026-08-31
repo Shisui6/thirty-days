@@ -11,6 +11,7 @@
     --body:'Nunito',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   }
   *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#092430}
 
   .oc-root{
     margin:0;min-height:100vh;
@@ -37,6 +38,25 @@
   }
   @keyframes ocSkyfade{0%,100%{opacity:.5}50%{opacity:1}}
   .oc-wrap{max-width:470px;margin:0 auto;position:relative;z-index:1}
+
+  .oc-nav{display:flex;justify-content:center;gap:8px;padding:14px 0 2px}
+  .oc-nav a{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;text-decoration:none;color:var(--muted);border:1px solid var(--edge);border-radius:20px;padding:7px 15px;transition:transform .15s ease,color .15s ease,border-color .15s ease}
+  .oc-nav a:hover{transform:translateY(-1px);color:var(--foam)}
+  .oc-nav a.on{color:var(--sun);border-color:rgba(255,192,113,.5);background:linear-gradient(120deg,rgba(255,192,113,.16),rgba(255,144,119,.1))}
+
+  .oc-vine{display:none;position:fixed;bottom:-10px;width:clamp(300px,28vw,560px);pointer-events:none;z-index:0;opacity:.9}
+  .oc-vine svg{display:block;width:100%;height:auto}
+  .oc-vine.left{left:-20px;transform-origin:bottom center}
+  .oc-vine.right{right:-20px;transform:scaleX(-1);transform-origin:bottom center}
+  @media (min-width:960px){.oc-vine{display:block}}
+  @media (prefers-reduced-motion:no-preference){
+    .oc-vine.left{animation:ocSway 9s ease-in-out infinite}
+    .oc-vine.right{animation:ocSwayR 11s ease-in-out infinite}
+    .gberry{animation:ocGlimmer 3.2s ease-in-out infinite}
+  }
+  @keyframes ocSway{0%,100%{transform:rotate(0deg)}50%{transform:rotate(1.2deg)}}
+  @keyframes ocSwayR{0%,100%{transform:scaleX(-1) rotate(0deg)}50%{transform:scaleX(-1) rotate(1.2deg)}}
+  @keyframes ocGlimmer{0%,100%{opacity:.35}50%{opacity:1}}
 
   .oc-hero{position:relative;margin:16px 0 22px;border-radius:24px;overflow:hidden;border:1px solid var(--edge);box-shadow:0 14px 40px rgba(0,0,0,.28)}
   .oc-hero svg{display:block;width:100%;height:auto}
@@ -214,6 +234,11 @@
 <div class="oc-root">
 <div class="oc-wrap">
 
+  <nav class="oc-nav" aria-label="Pages">
+    <a href="./">Tracker</a>
+    <a class="on" href="form.html" aria-current="page">Plan &amp; reset</a>
+  </nav>
+
   <div class="oc-hero">
     <svg viewBox="0 0 440 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
       <defs>
@@ -352,6 +377,9 @@
 
   <p class="oc-status" id="status"></p>
 </div>
+
+<div class="oc-vine left" id="vineL" aria-hidden="true"></div>
+<div class="oc-vine right" id="vineR" aria-hidden="true"></div>
 </div>
 
 <div class="gw" id="gw" role="dialog" aria-modal="true" aria-label="Build the plan">
@@ -670,7 +698,59 @@
     renderFlexSel();
   }
 
-  function all(){renderHeader();renderReset()}
+  /* Two corner vines that grow with the challenge: the stem follows the
+     days, and a flower blooms for every weekly reset actually done. */
+  function vineSvg(stage,blooms){
+    var leaves=[
+      [.08,34,300,-70],[.16,40,262,60],[.24,48,228,-58],[.32,58,196,52],
+      [.40,70,168,-48],[.48,85,146,44],[.56,102,128,-40],[.64,122,112,38],
+      [.72,142,97,-32],[.80,160,84,30],[.88,175,72,-24],[.95,188,62,20]];
+    var flowers=[[48,222],[70,162],[102,122],[142,91],[175,66]];
+    var h='<svg viewBox="0 0 300 340" xmlns="http://www.w3.org/2000/svg">'+
+      '<g transform="translate(30,340)">'+
+        '<g fill="none" stroke="#1E5B66" stroke-width="3" stroke-linecap="round">'+
+          '<path d="M-14 0 C -18 -22, -26 -38, -38 -52"/>'+
+          '<path d="M8 0 C 12 -26, 20 -42, 34 -56"/>'+
+          '<path d="M-4 0 C -5 -30, -3 -48, 0 -62"/>'+
+        '</g>'+
+        '<g fill="#14424F" stroke="rgba(158,214,209,.28)" stroke-width="1">'+
+          '<path transform="rotate(-64) translate(0,-8)" d="M0 0 Q14 -20 0 -46 Q-14 -20 0 0"/>'+
+          '<path transform="rotate(-36) translate(0,-8)" d="M0 0 Q15 -22 0 -52 Q-15 -22 0 0"/>'+
+          '<path transform="rotate(-10) translate(0,-8)" d="M0 0 Q16 -24 0 -58 Q-16 -24 0 0"/>'+
+          '<path transform="rotate(16) translate(0,-8)" d="M0 0 Q15 -22 0 -52 Q-15 -22 0 0"/>'+
+          '<path transform="rotate(44) translate(0,-8)" d="M0 0 Q14 -20 0 -46 Q-14 -20 0 0"/>'+
+        '</g>'+
+        '<path transform="rotate(30) translate(0,-10)" d="M0 0 Q12 -17 0 -38 Q-12 -17 0 0" fill="rgba(255,192,113,.3)"/>'+
+        '<circle class="gberry" cx="-24" cy="-40" r="2.6" fill="#FFC071"/>'+
+        '<circle class="gberry" cx="22" cy="-44" r="2.2" fill="#FFC071"/>'+
+      '</g>'+
+      '<path d="M30 340 C 40 260, 60 190, 105 140 S 175 80, 195 58" fill="none" '+
+      'stroke="#1E5B66" stroke-width="4" stroke-linecap="round" pathLength="1" '+
+      'style="stroke-dasharray:1;stroke-dashoffset:'+(1-stage)+'"/>';
+    leaves.forEach(function(l){
+      if(stage<l[0])return;
+      h+='<g transform="translate('+l[1]+','+l[2]+') rotate('+l[3]+') scale('+(0.9+0.5*l[0])+')">'+
+        '<path d="M0 0 Q11 -16 0 -34 Q-11 -16 0 0" fill="#14424F" '+
+        'stroke="rgba(158,214,209,.28)" stroke-width="1"/></g>';
+    });
+    flowers.slice(0,blooms).forEach(function(f){
+      h+='<g transform="translate('+f[0]+','+f[1]+')">';
+      [0,72,144,216,288].forEach(function(a){
+        h+='<ellipse transform="rotate('+a+')" cx="0" cy="-6" rx="3.2" ry="6" fill="#FFC071" opacity=".85"/>';
+      });
+      h+='<circle class="gberry" r="3" fill="#FFF1CE"/></g>';
+    });
+    return h+'</svg>';
+  }
+  function renderVines(){
+    var day=cur(),stage=Math.max(.14,Math.min(1,day/30)),blooms=0;
+    for(var w=1;w<=5;w++)if(state.reset[w]&&state.reset[w].done)blooms++;
+    var svg=vineSvg(stage,blooms);
+    document.getElementById('vineL').innerHTML=svg;
+    document.getElementById('vineR').innerHTML=svg;
+  }
+
+  function all(){renderHeader();renderReset();renderVines()}
 
   /* ---------------- wizard ---------------- */
   var gw=document.getElementById('gw'),gwBody=document.getElementById('gwBody'),
@@ -1223,7 +1303,7 @@
       sel=Math.min(30,Math.max(1,cur()));wk=weekOf(sel);all()}});
 
     document.getElementById('resetDone').addEventListener('click',function(){
-      var r=RS(wk);r.done=r.done?0:1;save();renderReset()});
+      var r=RS(wk);r.done=r.done?0:1;save();renderReset();renderVines()});
     document.getElementById('flexsel').addEventListener('change',function(){
       if(this.value==='')delete state.flex[wk];else state.flex[wk]=+this.value;
       save()});

@@ -81,7 +81,7 @@ export function WeekMatrix({ s, who, week }) {
   const today = currentDay(s);
 
   if (!list.length) {
-    return <p className="none">No daily items for {nameOf(s, who)} in the plan.</p>;
+    return <p className="none">Nothing daily for {nameOf(s, who)} yet.</p>;
   }
 
   const days = [];
@@ -137,8 +137,8 @@ export function WeekMatrix({ s, who, week }) {
       })}
 
       <p className="mx-hint">
-        Ticked in Todoist, pulled in by the daily sync. Dashed circles are the flex day. A number on
-        the right means it was missed more than once — those are wrong-cadence, not weak-willed.
+        Ticks come in from Todoist overnight. Dashed rings are the flex day. A number on the right
+        means missed more than once — move that one at the reset.
       </p>
     </>
   );

@@ -25,7 +25,7 @@ export default function Sky({ s }) {
     sub = `Day one is ${fmtDay(dateOfDay(s, 1))} — ${away} day${away === 1 ? '' : 's'} to go.`;
   } else if (day > TOTAL_DAYS) {
     title = 'Thirty days';
-    sub = `Finished ${fmtDay(dateOfDay(s, TOTAL_DAYS))}. Go collect the reward.`;
+    sub = 'Done. Thirty days. Go get the reward.';
   } else {
     title = `Day ${WORDS[day] || day}`;
     sub = `${fmtDay(dateOfDay(s, day))} · ${TOTAL_DAYS - day} to go`;
@@ -99,7 +99,23 @@ export default function Sky({ s }) {
           <rect x="294" y="164" width="12" height="1.8" rx=".9" />
         </g>
 
+        {/* A shooting star, briefly, every thirteen seconds. */}
+        <g className="shoot">
+          <line x1="60" y1="24" x2="44" y2="19" stroke="#FFF6E2" strokeWidth="1.2" strokeLinecap="round" opacity=".8" />
+          <circle cx="60" cy="24" r="1.5" fill="#FFF6E2" />
+        </g>
+
         <path d="M0 132 q55 -9 110 0 t110 0 t110 0 t110 0 v20 H0 z" fill="url(#w1)" />
+
+        {/* A little boat, bobbing between the first and second wave. */}
+        <g transform="translate(98,136)">
+          <g className="boat">
+            <path d="M0 -3 v-14 l10 14 z" fill="#FFF3DA" opacity=".92" />
+            <path d="M-2 -5 v-10 l-7 10 z" fill="#FFE7C2" opacity=".8" />
+            <path d="M-11 -1 h22 l-4 5 h-14 z" fill="#0B2C39" />
+          </g>
+        </g>
+
         <path d="M0 150 q48 10 96 0 t96 0 t96 0 t96 0 t96 0 v26 H0 z" fill="url(#w2)" />
         <path d="M0 172 q60 -11 120 0 t120 0 t120 0 t120 0 v40 H0 z" fill="url(#w3)" />
 

@@ -29,6 +29,54 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* A faint star field across the whole page, so the space around the column
+   reads as the same night sky the hero fades into. Two layers drifting at
+   slightly different rhythms; pure decoration, so no pointer events. */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-repeat: repeat;
+}
+body::before {
+  background-image:
+    radial-gradient(1.2px 1.2px at 8% 12%, rgba(255, 246, 226, 0.5), transparent 100%),
+    radial-gradient(1px 1px at 23% 64%, rgba(255, 246, 226, 0.32), transparent 100%),
+    radial-gradient(1.4px 1.4px at 41% 31%, rgba(255, 246, 226, 0.4), transparent 100%),
+    radial-gradient(1px 1px at 67% 78%, rgba(255, 246, 226, 0.3), transparent 100%),
+    radial-gradient(1.3px 1.3px at 84% 22%, rgba(255, 246, 226, 0.45), transparent 100%),
+    radial-gradient(1px 1px at 93% 55%, rgba(255, 246, 226, 0.3), transparent 100%);
+  background-size: 640px 640px;
+}
+body::after {
+  background-image:
+    radial-gradient(1px 1px at 15% 42%, rgba(255, 231, 168, 0.35), transparent 100%),
+    radial-gradient(1.3px 1.3px at 55% 15%, rgba(255, 246, 226, 0.4), transparent 100%),
+    radial-gradient(1px 1px at 76% 88%, rgba(255, 231, 168, 0.3), transparent 100%),
+    radial-gradient(1.2px 1.2px at 34% 92%, rgba(255, 246, 226, 0.35), transparent 100%);
+  background-size: 480px 480px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  body::before {
+    animation: skyfade 9s ease-in-out infinite;
+  }
+  body::after {
+    animation: skyfade 7s ease-in-out infinite reverse;
+  }
+}
+@keyframes skyfade {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .wrap {
   max-width: 470px;
   margin: 0 auto;
@@ -58,9 +106,11 @@ body {
 
 .hero {
   position: relative;
-  margin: 0 -3px;
-  border-radius: 0 0 26px 26px;
+  margin: 0;
+  border-radius: 26px;
   overflow: hidden;
+  border: 1px solid var(--edge);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.28);
   line-height: 0;
 }
 .hero svg {
@@ -117,6 +167,36 @@ body {
       drift 7s ease-in-out infinite,
       glimmer 2.6s ease-in-out infinite;
   }
+  .boat {
+    animation: bob 5s ease-in-out infinite;
+  }
+  .shoot {
+    animation: shoot 13s linear infinite;
+  }
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-2.5px) rotate(-2deg);
+  }
+}
+@keyframes shoot {
+  0%,
+  88% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  90% {
+    opacity: 0.9;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: translate(130px, 36px);
+  }
 }
 @keyframes twinkle {
   0%,
@@ -156,7 +236,7 @@ body {
   display: flex;
   align-items: center;
   gap: 9px;
-  margin: 14px 0 0;
+  margin: 16px 0 0;
   padding: 10px 14px;
   border-radius: 14px;
   font-size: 12px;
@@ -202,15 +282,22 @@ body {
 
 .tally {
   display: flex;
-  gap: 8px;
-  margin: 10px 0 0;
+  gap: 10px;
+  margin: 12px 0 0;
 }
 .t {
   flex: 1;
-  background: rgba(255, 255, 255, 0.055);
+  background: linear-gradient(160deg, rgba(255, 192, 113, 0.05), rgba(255, 255, 255, 0.045));
   border: 1px solid var(--edge);
   border-radius: 16px;
   padding: 11px 12px;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.t:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 .t-lab {
   display: block;
@@ -285,7 +372,8 @@ h2.h::before {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: start;
-    gap: 32px 24px;
+    gap: 36px 28px;
+    margin-top: 36px;
   }
   .grid2 .block > .h {
     margin-top: 0;
@@ -302,8 +390,9 @@ h2.h::before {
 
 .suns {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(6, minmax(0, 62px));
+  justify-content: space-between;
+  gap: 10px;
 }
 .sun {
   position: relative;
@@ -373,6 +462,20 @@ h2.h::before {
 }
 .sun.today {
   border-color: var(--foam);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sun.today {
+    animation: today-halo 3.2s ease-in-out infinite;
+  }
+}
+@keyframes today-halo {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(236, 249, 245, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 10px 2px rgba(236, 249, 245, 0.45);
+  }
 }
 .sun.future {
   opacity: 0.4;
@@ -580,7 +683,7 @@ h2.h::before {
 /* ---------- rule ribbon ---------- */
 
 .rule {
-  margin-top: 10px;
+  margin-top: 12px;
   padding: 12px 15px;
   border-radius: 16px;
   background: linear-gradient(120deg, rgba(255, 192, 113, 0.16), rgba(95, 217, 201, 0.12));
@@ -595,11 +698,131 @@ h2.h::before {
   color: var(--sun);
   margin-bottom: 2px;
 }
+.rule span::before {
+  content: '♥ ';
+  color: var(--coral);
+}
 .rule p {
   margin: 0;
   font-family: var(--display);
   font-style: italic;
   font-size: 16px;
+}
+
+/* ---------- top navigation ---------- */
+
+.topnav {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 0 14px;
+}
+.topnav a {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--muted);
+  border: 1px solid var(--edge);
+  border-radius: 20px;
+  padding: 7px 15px;
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.topnav a:hover {
+  transform: translateY(-1px);
+  color: var(--foam);
+}
+.topnav a.on {
+  color: var(--sun);
+  border-color: rgba(255, 192, 113, 0.5);
+  background: linear-gradient(120deg, rgba(255, 192, 113, 0.16), rgba(255, 144, 119, 0.1));
+}
+
+/* ---------- corner vines that grow with the challenge ---------- */
+
+.wrap {
+  position: relative;
+  z-index: 1;
+}
+.vine {
+  display: none;
+  position: fixed;
+  bottom: -10px;
+  width: clamp(300px, 28vw, 560px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.9;
+}
+.vine svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.vine.left {
+  left: -20px;
+  transform-origin: bottom center;
+}
+.vine.right {
+  right: -20px;
+  transform: scaleX(-1);
+  transform-origin: bottom center;
+}
+@media (min-width: 960px) {
+  .vine {
+    display: block;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vine.left {
+    animation: sway 9s ease-in-out infinite;
+  }
+  .vine.right {
+    animation: sway-r 11s ease-in-out infinite;
+  }
+  .gberry {
+    animation: glimmer 3.2s ease-in-out infinite;
+  }
+}
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(1.2deg);
+  }
+}
+@keyframes sway-r {
+  0%,
+  100% {
+    transform: scaleX(-1) rotate(0deg);
+  }
+  50% {
+    transform: scaleX(-1) rotate(1.2deg);
+  }
+}
+
+/* ---------- footer link to the form ---------- */
+
+.foot {
+  text-align: center;
+  margin: 30px 0 0;
+  font-size: 12.5px;
+}
+.foot a {
+  color: var(--dim);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--dim);
+  padding-bottom: 1px;
+  transition: color 0.15s ease;
+}
+.foot a:hover {
+  color: var(--sun);
+  border-bottom-color: var(--sun);
 }
 
 /* ---------- list sections ---------- */
@@ -664,9 +887,12 @@ h2.h::before {
   min-width: 62px;
 }
 .row em {
+  display: block;
   font-style: normal;
   color: var(--dim);
-  font-size: 11.5px;
+  font-size: 11px;
+  margin-top: 2px;
+  letter-spacing: 0.02em;
 }
 
 .load {

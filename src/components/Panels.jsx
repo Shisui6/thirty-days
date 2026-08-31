@@ -52,9 +52,7 @@ export function Targets({ s }) {
   const blocks = ['a', 'b'].filter((w) => Object.values(s.goals[w] || {}).some(has));
   if (!blocks.length) {
     return (
-      <p className="none">
-        No targets in the dataset. The items are inputs — this is where the output goes.
-      </p>
+      <p className="none">No targets yet. They come from the form.</p>
     );
   }
   return blocks.map((w) => {
@@ -83,7 +81,7 @@ export function Targets({ s }) {
 
 export function Plan({ s }) {
   if (!s.items.length) {
-    return <p className="none">The dataset has no items yet.</p>;
+    return <p className="none">No plan yet. It gets built in the form.</p>;
   }
   const da = itemsFor(s, 'a', 'daily').length;
   const db = itemsFor(s, 'b', 'daily').length;
@@ -180,7 +178,7 @@ export function Reality({ s }) {
     },
   ];
   const any = blocks.some((b) => b.rows.some(([, v]) => has(v)));
-  if (!any) return <p className="none">No constraints in the dataset.</p>;
+  if (!any) return <p className="none">Not filled in yet.</p>;
 
   return blocks.map((b) => {
     const rows = b.rows.filter(([, v]) => has(v));
@@ -202,10 +200,10 @@ export function Reality({ s }) {
 }
 
 const RESET_LABELS = [
-  ['missed', 'Missed more than twice'],
-  ['moved', 'What moved on the targets'],
-  ['together', 'Together which days'],
-  ['asks', 'What each of us asked for'],
+  ['missed', 'What we kept missing'],
+  ['moved', 'What actually got done'],
+  ['together', 'Seeing each other'],
+  ['asks', 'What we each asked for'],
 ];
 
 export function ResetLog({ s, week }) {
@@ -215,8 +213,7 @@ export function ResetLog({ s, week }) {
   if (!rows.length) {
     return (
       <p className="none">
-        No reset logged for days {from}–{to}. Write it in the setup app and commit it — the four
-        questions are the part of this worth keeping.
+        No reset logged for days {from}–{to} yet. That happens in the form, at the weekly sit-down.
       </p>
     );
   }
@@ -254,7 +251,7 @@ export function Markers({ s }) {
       'The reward',
       has(rw.reward)
         ? `${rw.reward}${has(rw.rewardWhen) ? ` — booked by ${rw.rewardWhen}` : ''}`
-        : 'Not named in the dataset yet.',
+        : 'Not named yet.',
     ],
   ];
   return stones.map(([d, t, sub]) => (

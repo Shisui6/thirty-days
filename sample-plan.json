@@ -1,0 +1,65 @@
+{
+  "start": "2026-09-01",
+  "names": { "a": "Sam", "b": "Lena" },
+  "real": {
+    "a": { "shape": "Office 9-18, home around 18:40", "dip": "After 22:00 nothing serious happens" },
+    "a2": { "fixed": "Football on Tuesdays", "best": "Right after coffee, 8-9", "change": "Nothing big" },
+    "b": { "shape": "Shifts, varies week to week", "dip": "Right after dinner" },
+    "b2": { "fixed": "Late shift on Thursdays", "best": "Mornings before 11", "change": "Course starts in October" },
+    "us": { "pattern": "Most evenings, weekends vary", "travel": "20 minutes door to door" },
+    "us2": { "reward": "Weekend trip to the coast", "rewardWhen": "Booked by 6 Sept" }
+  },
+  "goals": {
+    "a": {
+      "one": "Run 5k without stopping",
+      "done": "A tracked 5k, no walking breaks",
+      "derail": "Late nights at work",
+      "counter": "10 minute walk instead, same shoes",
+      "reward": "New running shoes"
+    },
+    "b": {
+      "one": "Finish the C1 course module",
+      "done": "Certificate downloaded",
+      "derail": "Scrolling after dinner",
+      "counter": "One lesson with the phone in the kitchen",
+      "reward": "A day at the spa"
+    }
+  },
+  "pact": {
+    "rule": "We never go to bed angry",
+    "wantA": "More walks together",
+    "wantB": "Phones away at dinner"
+  },
+  "items": [
+    { "id": 1, "text": "20 min walk", "area": "body", "owner": "a", "cadence": "daily", "flex": true, "time": "07:30", "dur": 20, "wday": "", "mday": "" },
+    { "id": 2, "text": "Read 20 min", "area": "mind", "owner": "a", "cadence": "daily", "flex": true, "time": "22:00", "dur": 20, "wday": "", "mday": "" },
+    { "id": 3, "text": "No scrolling in bed", "area": "attention", "owner": "a", "cadence": "daily", "flex": false, "time": "23:00", "dur": 5, "wday": "", "mday": "" },
+    { "id": 4, "text": "Stretch 10 min", "area": "body", "owner": "b", "cadence": "daily", "flex": true, "time": "08:00", "dur": 10, "wday": "", "mday": "" },
+    { "id": 5, "text": "Journal 5 min", "area": "mind", "owner": "b", "cadence": "daily", "flex": true, "time": "21:00", "dur": 5, "wday": "", "mday": "" },
+    { "id": 6, "text": "One course lesson", "area": "work", "owner": "b", "cadence": "daily", "flex": true, "time": "10:00", "dur": 30, "wday": "", "mday": "" },
+    { "id": 7, "text": "Say one appreciation", "area": "us", "owner": "both", "cadence": "daily", "flex": true, "time": "21:30", "dur": 5, "wday": "", "mday": "" },
+    { "id": 8, "text": "Go to bed at the same time", "area": "us", "owner": "both", "cadence": "daily", "flex": false, "time": "23:15", "dur": 5, "wday": "", "mday": "" },
+    { "id": 9, "text": "Gym session", "area": "body", "owner": "a", "cadence": "weekly", "flex": true, "time": "18:30", "dur": 60, "wday": "3", "mday": "" },
+    { "id": 10, "text": "Call family", "area": "people", "owner": "b", "cadence": "weekly", "flex": true, "time": "17:00", "dur": 30, "wday": "6", "mday": "" },
+    { "id": 11, "text": "The weekly reset", "area": "us", "owner": "both", "cadence": "weekly", "flex": true, "time": "19:00", "dur": 20, "wday": "0", "mday": "" },
+    { "id": 12, "text": "A date", "area": "ustime", "owner": "both", "cadence": "weekly", "flex": true, "time": "19:30", "dur": 120, "wday": "5", "mday": "" },
+    { "id": 13, "text": "Weekly shop", "area": "usadmin", "owner": "both", "cadence": "weekly", "flex": true, "time": "11:00", "dur": 45, "wday": "6", "mday": "" },
+    { "id": 14, "text": "Book the dentist", "area": "admin", "owner": "a", "cadence": "monthly", "flex": true, "time": "12:30", "dur": 10, "wday": "", "mday": "9" },
+    { "id": 15, "text": "Cancel one subscription", "area": "money", "owner": "b", "cadence": "monthly", "flex": true, "time": "19:00", "dur": 15, "wday": "", "mday": "8" },
+    { "id": 16, "text": "Something neither of us has done", "area": "us", "owner": "both", "cadence": "monthly", "flex": true, "time": "14:00", "dur": 180, "wday": "", "mday": "20" },
+    { "id": 17, "text": "Learn one new thing", "area": "work", "owner": "a", "cadence": "later", "flex": true, "time": "", "dur": "", "wday": "", "mday": "" }
+  ],
+  "seq": 18,
+  "chk": {},
+  "days": {},
+  "flex": { "1": 4 },
+  "reset": {
+    "1": {
+      "missed": "The walk, three times. Moving it to lunch.",
+      "moved": "First 2k run done. Two lessons finished.",
+      "together": "Tue, Fri and Saturday",
+      "asks": "Sam: a proper hello when we get home. Lena: leave the dishes for the morning.",
+      "done": 1
+    }
+  }
+}
