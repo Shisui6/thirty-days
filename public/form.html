@@ -1,5 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Thirty Days · Plan &amp; reset</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Nunito:wght@400;600;700&display=swap');
 
@@ -44,11 +46,11 @@
   .oc-nav a:hover{transform:translateY(-1px);color:var(--foam)}
   .oc-nav a.on{color:var(--sun);border-color:rgba(255,192,113,.5);background:linear-gradient(120deg,rgba(255,192,113,.16),rgba(255,144,119,.1))}
 
-  .oc-vine{display:none;position:fixed;bottom:-10px;width:clamp(300px,28vw,560px);pointer-events:none;z-index:0;opacity:.9}
+  .oc-vine{position:fixed;bottom:-10px;width:clamp(200px,46vw,560px);pointer-events:none;z-index:0;opacity:.6}
   .oc-vine svg{display:block;width:100%;height:auto}
   .oc-vine.left{left:-20px;transform-origin:bottom center}
   .oc-vine.right{right:-20px;transform:scaleX(-1);transform-origin:bottom center}
-  @media (min-width:960px){.oc-vine{display:block}}
+  @media (min-width:960px){.oc-vine{width:clamp(300px,28vw,560px);opacity:.9}}
   @media (prefers-reduced-motion:no-preference){
     .oc-vine.left{animation:ocSway 9s ease-in-out infinite}
     .oc-vine.right{animation:ocSwayR 11s ease-in-out infinite}
@@ -142,7 +144,7 @@
     background:linear-gradient(180deg,#FFD59B 0%,#FF9E7D 20%,#C9736F 42%,#5C6E82 66%,#0B2C39 100%);
     padding:0 18px 44px;min-height:100%}
   .gw.open{display:block}
-  .gw-in{max-width:440px;margin:0 auto;min-height:560px;display:flex;flex-direction:column}
+  .gw-in{max-width:440px;margin:0 auto;min-height:560px;display:flex;flex-direction:column;position:relative;z-index:1}
   .gw-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 0 0}
   .gw-chap{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:rgba(9,36,48,.6)}
   .gw-x{border:0;background:rgba(9,36,48,.14);color:#092430;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;line-height:1}
@@ -383,6 +385,8 @@
 </div>
 
 <div class="gw" id="gw" role="dialog" aria-modal="true" aria-label="Build the plan">
+  <div class="oc-vine left" aria-hidden="true"></div>
+  <div class="oc-vine right" aria-hidden="true"></div>
   <div class="gw-in">
     <div class="gw-top">
       <span class="gw-chap" id="gwChap">Build the plan</span>
@@ -746,8 +750,9 @@
     var day=cur(),stage=Math.max(.14,Math.min(1,day/30)),blooms=0;
     for(var w=1;w<=5;w++)if(state.reset[w]&&state.reset[w].done)blooms++;
     var svg=vineSvg(stage,blooms);
-    document.getElementById('vineL').innerHTML=svg;
-    document.getElementById('vineR').innerHTML=svg;
+    Array.prototype.forEach.call(document.querySelectorAll('.oc-vine'),function(el){
+      el.innerHTML=svg;
+    });
   }
 
   function all(){renderHeader();renderReset();renderVines()}
