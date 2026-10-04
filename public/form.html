@@ -209,6 +209,10 @@
     font-family:var(--body);font-size:14px;padding:9px 10px;
   }
   .gw-slotrow input:focus,.gw-slotrow select:focus{outline:none;border-color:#0B2C39;background:#fff}
+  .gw-wdays{display:flex;gap:4px;margin-top:6px}
+  .gw-wd{flex:1;min-width:0;border:1.5px solid rgba(11,44,57,.2);background:rgba(255,255,255,.5);color:rgba(11,44,57,.65);border-radius:9px;padding:7px 0;font-family:var(--body);font-size:11px;font-weight:700;cursor:pointer;transition:transform .1s ease}
+  .gw-wd:hover{transform:translateY(-1px)}
+  .gw-wd.on{background:#0B2C39;border-color:#0B2C39;color:#FFF3D6}
   .gw-out{
     width:100%;min-height:150px;background:rgba(11,44,57,.92);color:#EAF7F4;
     border:0;border-radius:14px;font-family:ui-monospace,Menlo,monospace;
@@ -329,7 +333,7 @@
     <div class="oc-body">
       <ul>
         <li><strong>Five a day, max.</strong> More than five and you start bargaining with yourself every evening.</li>
-        <li><strong>Everything is daily, weekly, or monthly.</strong> Cheap little things are daily. Things that need a real time slot are weekly. Things you keep postponing are monthly.</li>
+        <li><strong>Everything is daily, weekly, or monthly.</strong> Cheap little things are daily. Things that need a real time slot are weekly — and you pick exactly which days, so "gym three times a week" is Mon, Wed, Fri, not a vague hope. Things you keep postponing are monthly.</li>
         <li><strong>If something keeps getting missed, it's in the wrong spot.</strong> Not a willpower thing. Move it at the reset.</li>
         <li><strong>One flex day a week.</strong> Picked at the reset, before the week starts. It excuses everything except the never-skip items. Days 29 and 30 have no flex day — finish clean.</li>
         <li><strong>Miss once, fine. Never miss twice.</strong> Habits die on the second day, not the first.</li>
@@ -351,7 +355,7 @@
   <details class="oc-card">
     <summary>How it all fits together</summary>
     <div class="oc-body">
-      <p><strong>Todoist owns the day.</strong> It reminds you, you tick it. That's the whole daily routine. Shared daily things appear on both your lists — you each tick your own, and that's how the tracker knows you both showed up.</p>
+      <p><strong>Todoist owns the day.</strong> It reminds you, you tick it. That's the whole daily routine. Shared daily and weekly things appear on both your lists — you each tick your own, and that's how the tracker knows you both showed up.</p>
       <p><strong>The tracker owns the month.</strong> The grid, the sun, the targets. It updates itself every night from Todoist.</p>
       <p><strong>This page owns the reset.</strong> Once a week, twenty minutes. Nothing here updates on its own — after a reset, fix Todoist if the plan changed and download a backup.</p>
       <p><strong>And day 31:</strong> in week four, pick the two or three things that clearly paid off and keep them for good. Drop the rest, no guilt. Three habits that survive is a win.</p>
@@ -796,7 +800,7 @@
   function addItem(text,area,owner){
     text=(text||'').trim();if(!text)return;
     state.items.push({id:state.seq++,text:text,area:area,owner:owner,cadence:'later',
-      flex:true,time:'',dur:'',wday:'',mday:''});
+      flex:true,time:'',dur:'',wday:'',wdays:[1],mday:''});
     save();
   }
   function findItem(text,area,owner){
@@ -1104,28 +1108,44 @@
     live.forEach(function(it){
       var d=document.createElement('div');d.className='gw-arow';
       var when=it.cadence==='daily'?'every day'
-        :it.cadence==='weekly'?'every week':'once this month';
+        :it.cadence==='weekly'?'pick the days':'once this month';
       var h='<div class="gw-atop"><div class="gw-atext">'+esc(it.text)+
         '<small>'+esc(it.owner==='both'?'shared':nm(it.owner))+' · '+when+'</small></div></div>'+
         '<div class="gw-slotrow">'+
           '<input type="time" data-f="time" aria-label="Time">'+
           '<input type="number" data-f="dur" min="5" max="240" step="5" placeholder="min" aria-label="Minutes">';
-      if(it.cadence==='weekly'){
-        h+='<select data-f="wday" aria-label="Day of week">';
-        WDAYN.forEach(function(n,i){h+='<option value="'+i+'">'+n+'</option>'});
-        h+='</select>';
-      } else if(it.cadence==='monthly'){
+      if(it.cadence==='monthly'){
         h+='<select data-f="mday" aria-label="Day of the month">';
         for(var k=1;k<=30;k++)h+='<option value="'+k+'">Day '+k+'</option>';
         h+='</select>';
       }
       h+='</div>';
+      if(it.cadence==='weekly'){
+        h+='<div class="gw-wdays" role="group" aria-label="Days of the week">';
+        WDAYN.forEach(function(n,i){
+          h+='<button type="button" class="gw-wd'+
+            (it.wdays.indexOf(i)>=0?' on':'')+'" data-wd="'+i+'">'+n.slice(0,3)+'</button>';
+        });
+        h+='</div>';
+      }
       d.innerHTML=h;
       Array.prototype.forEach.call(d.querySelectorAll('[data-f]'),function(el){
         var f=el.dataset.f;
         if(it[f]!==''&&it[f]!==undefined&&it[f]!==null)el.value=it[f];
         el.addEventListener('change',function(){it[f]=this.value;save()});
         el.addEventListener('input',function(){it[f]=this.value;save()});
+      });
+      Array.prototype.forEach.call(d.querySelectorAll('.gw-wd'),function(b){
+        b.addEventListener('click',function(){
+          var wd=+this.dataset.wd,ix=it.wdays.indexOf(wd);
+          if(ix>=0){
+            if(it.wdays.length===1)return; // keep at least one day
+            it.wdays.splice(ix,1);this.classList.remove('on');
+          }else{
+            it.wdays.push(wd);it.wdays.sort();this.classList.add('on');
+          }
+          save();
+        });
       });
       host.appendChild(d);
     });
@@ -1137,7 +1157,7 @@
     cads.forEach(function(cad){
       items(w,cad).forEach(function(it){
         var rec = cad==='daily' ? 'DAILY'
-          : cad==='weekly' ? 'WEEKLY:'+(WDAY[it.wday||0])
+          : cad==='weekly' ? 'WEEKLY:'+(it.wdays||[1]).map(function(i){return WDAY[i]}).join(',')
           : 'MONTHLY:'+(it.mday||1);
         out.push([it.text.replace(/\|/g,'/'),(it.time||'09:00'),(it.dur||30),rec].join(' | '));
       });
@@ -1150,29 +1170,31 @@
     return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate())}
 
   /**
-   * Daily items owned "both" go into EACH person's own block, never the
-   * shared one: Todoist can only mark one task done once, so a single
-   * shared task could never record that both people did it separately.
-   * Weekly/monthly "both" items go the other way — into the shared "Ours"
-   * block only, since those aren't tracked by the sync at all (see
-   * scripts/sync.mjs, which skips anything that isn't cadence:daily), so a
-   * single joint reminder is exactly right for them.
+   * Daily and weekly items owned "both" go into EACH person's own block,
+   * never the shared one: those cadences are tracked per person, and Todoist
+   * can only mark one task done once, so a single shared task could never
+   * record that both people did it separately. Monthly "both" items go the
+   * other way — into the shared "Ours" block only, since those are reminders
+   * rather than tracked habits, so a single joint task is exactly right.
    */
+  function wdayNames(it){
+    return (it.wdays&&it.wdays.length?it.wdays:[1]).slice().sort()
+      .map(function(i){return WDAYN[i].toLowerCase()}).join(', ');
+  }
   function exportTodoist(owner){
     var out=[];
     ['daily','weekly','monthly'].forEach(function(cad){
       state.items.filter(function(i){
         if(i.cadence!==cad)return false;
-        if(owner==='both')return i.owner==='both'&&cad!=='daily';
-        if(cad==='daily')return i.owner===owner||i.owner==='both';
+        if(owner==='both')return i.owner==='both'&&cad==='monthly';
+        if(cad!=='monthly')return i.owner===owner||i.owner==='both';
         return i.owner===owner;
       })
       .forEach(function(it){
         var time=(it.time||'').trim(), at=time?' at '+time:'';
         var line;
         if(cad==='daily') line=it.text+' every day'+at;
-        else if(cad==='weekly') line=it.text+' every '+
-          WDAYN[it.wday||0].toLowerCase()+at;
+        else if(cad==='weekly') line=it.text+' every '+wdayNames(it)+at;
         else line=it.text+' '+isoOf(+it.mday||1)+at;
         out.push(line);
       });
@@ -1194,9 +1216,9 @@
       '<p class="gw-hint">Three projects, three blocks. Open a project in Todoist, paste a whole '+
       'block into quick add, and it creates every task with its recurrence and time. '+
       '<strong>'+esc(nm('a'))+'’s and '+esc(nm('b'))+'’s projects stay private to each of you</strong> '+
-      '— daily items you do together already appear on both lists below, as two separate tasks, '+
-      'so each of you ticks your own. Only share the <strong>Ours</strong> project with each other; '+
-      'it just holds the weekly/monthly things that are genuinely joint.</p>';
+      '— daily and weekly items you do together already appear on both lists below, as two separate '+
+      'tasks, so each of you ticks your own. Only share the <strong>Ours</strong> project with each '+
+      'other; it holds the monthly things that are genuinely joint.</p>';
     blocks.forEach(function(b){
       var txt=exportTodoist(b[0]);
       if(!txt){
@@ -1377,6 +1399,11 @@
     if(!state.days)state.days={};
     if(!state.flex)state.flex={};
     if(!state.start)state.start=firstOfNextMonth();
+    state.items.forEach(function(it){
+      if(!Array.isArray(it.wdays)||!it.wdays.length){
+        it.wdays=(it.wday!==''&&it.wday!==undefined&&it.wday!==null)?[+it.wday||0]:[1];
+      }
+    });
     init();
   });
 })();

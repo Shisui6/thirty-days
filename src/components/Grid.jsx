@@ -2,12 +2,13 @@ import {
   currentDay,
   dateOfDay,
   dayComplete,
+  dueOn,
   isFlexDay,
   isTicked,
-  itemsFor,
   missesInWeek,
   nameOf,
   TOTAL_DAYS,
+  trackedFor,
   weekRange,
 } from '../lib/state.js';
 
@@ -76,12 +77,12 @@ export function Suns({ s }) {
  * the right is what you actually read at a reset.
  */
 export function WeekMatrix({ s, who, week }) {
-  const list = itemsFor(s, who, 'daily');
+  const list = trackedFor(s, who);
   const [from, to] = weekRange(week);
   const today = currentDay(s);
 
   if (!list.length) {
-    return <p className="none">Nothing daily for {nameOf(s, who)} yet.</p>;
+    return <p className="none">Nothing daily or weekly for {nameOf(s, who)} yet.</p>;
   }
 
   const days = [];
@@ -113,6 +114,13 @@ export function WeekMatrix({ s, who, week }) {
             </div>
             <div className="mx-cells">
               {days.map((n) => {
+                if (!dueOn(s, it, n)) {
+                  return (
+                    <div key={n} className="mx-c off" title={`${it.text} · not on this day`}>
+                      ·
+                    </div>
+                  );
+                }
                 const auto = isFlexDay(s, n) && it.flex !== false;
                 const on = isTicked(s, n, it.id, who) || auto;
                 const cls = ['mx-c'];
@@ -137,8 +145,9 @@ export function WeekMatrix({ s, who, week }) {
       })}
 
       <p className="mx-hint">
-        Ticks come in from Todoist overnight. Dashed rings are the flex day. A number on the right
-        means missed more than once — move that one at the reset.
+        Ticks come in from Todoist overnight. Dashed rings are the flex day, a dot means the item
+        isn&rsquo;t scheduled that day. A number on the right means missed more than once — move
+        that one at the reset.
       </p>
     </>
   );

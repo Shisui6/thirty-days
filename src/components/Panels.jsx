@@ -125,8 +125,15 @@ export function Plan({ s }) {
                   <em>
                     {[
                       AREAS[it.area],
+                      it.cadence === 'weekly' && it.wdays?.length
+                        ? it.wdays
+                            .map((d) =>
+                              ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d],
+                            )
+                            .join(' ')
+                        : null,
                       it.time || null,
-                      it.cadence === 'daily' && it.flex === false ? 'never skips' : null,
+                      it.flex === false ? 'never skips' : null,
                     ]
                       .filter(Boolean)
                       .join(' · ')}

@@ -58,6 +58,7 @@ const next = {
       time: it.time || '',
       dur: it.dur || '',
       wday: it.wday ?? '',
+      wdays: Array.isArray(it.wdays) && it.wdays.length ? it.wdays : it.wday !== '' && it.wday != null ? [Number(it.wday) || 0] : [1],
       mday: it.mday ?? '',
       todoistId: prior?.todoistId || it.todoistId || null,
     };

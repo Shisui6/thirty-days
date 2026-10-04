@@ -57,6 +57,12 @@ export function normalise(raw) {
       time: it.time || '',
       dur: it.dur || '',
       wday: it.wday ?? '',
+      wdays:
+        Array.isArray(it.wdays) && it.wdays.length
+          ? it.wdays.map(Number)
+          : it.wday !== '' && it.wday != null
+            ? [Number(it.wday) || 0]
+            : [1],
       mday: it.mday ?? '',
       todoistId: it.todoistId || null,
     })),
@@ -130,6 +136,28 @@ export function itemsFor(s, who, cadence) {
   return s.items.filter((it) => it.cadence === cadence && (it.owner === who || it.owner === 'both'));
 }
 
+/** Is this item due on challenge day n? Daily: always. Weekly: on its chosen
+ *  weekdays. Monthly/parked: never (reminders, not tracked habits). */
+export function dueOn(s, it, n) {
+  if (it.cadence === 'daily') return true;
+  if (it.cadence === 'weekly') return (it.wdays || []).includes(dateOfDay(s, n).getDay());
+  return false;
+}
+
+/** Every tracked item (daily + weekly) for this person, in plan order. */
+export function trackedFor(s, who) {
+  return s.items.filter(
+    (it) =>
+      (it.cadence === 'daily' || it.cadence === 'weekly') &&
+      (it.owner === who || it.owner === 'both'),
+  );
+}
+
+/** The items actually due for this person on day n. */
+export function itemsDueOn(s, who, n) {
+  return trackedFor(s, who).filter((it) => dueOn(s, it, n));
+}
+
 export function tickKey(day, itemId, who) {
   return `d${day}|${itemId}|${who}`;
 }
@@ -148,14 +176,16 @@ export function itemSatisfied(s, day, it, who) {
 }
 
 export function dayComplete(s, day, who) {
-  const list = itemsFor(s, who, 'daily');
-  if (!list.length) return false;
+  if (!trackedFor(s, who).length) return false;
+  const list = itemsDueOn(s, who, day);
+  // Nothing due that day means nothing to fail: the day is satisfied.
   return list.every((it) => itemSatisfied(s, day, it, who));
 }
 
 export function dayRatio(s, day, who) {
-  const list = itemsFor(s, who, 'daily');
-  if (!list.length) return 0;
+  if (!trackedFor(s, who).length) return 0;
+  const list = itemsDueOn(s, who, day);
+  if (!list.length) return 1;
   const hit = list.filter((it) => itemSatisfied(s, day, it, who)).length;
   return hit / list.length;
 }
@@ -185,9 +215,11 @@ export function missedTwice(s, who) {
   const today = currentDay(s);
   if (today < 3) return [];
   const out = [];
-  for (const it of itemsFor(s, who, 'daily')) {
+  for (const it of trackedFor(s, who)) {
+    // A streak of misses counts only the days the item was actually due.
     let streak = 0;
     for (let d = Math.min(today, TOTAL_DAYS); d >= 1; d -= 1) {
+      if (!dueOn(s, it, d)) continue;
       if (itemSatisfied(s, d, it, who)) break;
       streak += 1;
       if (streak >= 2) break;
@@ -197,12 +229,14 @@ export function missedTwice(s, who) {
   return out;
 }
 
-/** How many times an item was missed in a given week. Drives the reset. */
+/** How many times an item was missed in a given week, counting only its due
+ *  days. Drives the reset. */
 export function missesInWeek(s, week, it, who) {
   const [from, to] = weekRange(week);
   const today = Math.min(currentDay(s), TOTAL_DAYS);
   let n = 0;
   for (let d = from; d <= Math.min(to, today); d += 1) {
+    if (!dueOn(s, it, d)) continue;
     if (!itemSatisfied(s, d, it, who)) n += 1;
   }
   return n;

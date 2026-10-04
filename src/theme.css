@@ -643,6 +643,11 @@ h2.h::before {
 .mx-c.fut {
   opacity: 0.3;
 }
+.mx-c.off {
+  border-color: transparent;
+  color: var(--dim);
+  opacity: 0.45;
+}
 .mx-hint {
   font-size: 12px;
   color: var(--dim);

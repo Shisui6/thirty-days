@@ -151,9 +151,9 @@ async function main() {
         report[how === 'ambiguous' ? 'ambiguous' : 'unmatched'].add(c.content);
         continue;
       }
-      // Only daily items live in the grid; weekly and monthly ones are
-      // read off the plan rather than the matrix.
-      if (item.cadence !== 'daily') continue;
+      // Daily and weekly items live in the grid (weekly ones on their chosen
+      // weekdays); monthly items are reminders, read off the plan instead.
+      if (item.cadence !== 'daily' && item.cadence !== 'weekly') continue;
 
       const k = `d${n}|${item.id}|${owner}`;
       if (!ticks[k]) {
