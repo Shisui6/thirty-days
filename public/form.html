@@ -209,6 +209,7 @@
     font-family:var(--body);font-size:14px;padding:9px 10px;
   }
   .gw-slotrow input:focus,.gw-slotrow select:focus{outline:none;border-color:#0B2C39;background:#fff}
+  .gw-wlab{font-size:11.5px;color:rgba(11,44,57,.6);margin-top:8px}
   .gw-wdays{display:flex;gap:4px;margin-top:6px}
   .gw-wd{flex:1;min-width:0;border:1.5px solid rgba(11,44,57,.2);background:rgba(255,255,255,.5);color:rgba(11,44,57,.65);border-radius:9px;padding:7px 0;font-family:var(--body);font-size:11px;font-weight:700;cursor:pointer;transition:transform .1s ease}
   .gw-wd:hover{transform:translateY(-1px)}
@@ -1054,7 +1055,25 @@
           '<button data-v="both">Both</button></div>'+
         (it.cadence==='daily'?'<button class="gw-fx">'+
           (it.flex===false?'Never skips, even on a flex day':'Can be skipped on the flex day')+
-          '</button>':'');
+          '</button>':'')+
+        (it.cadence==='weekly'?'<div class="gw-wlab">Which days? Pick as many as you like.</div>'+
+          '<div class="gw-wdays" role="group" aria-label="Days of the week">'+
+          WDAYN.map(function(n,i){
+            return '<button type="button" class="gw-wd'+(it.wdays.indexOf(i)>=0?' on':'')+
+              '" data-wd="'+i+'">'+n.slice(0,3)+'</button>';
+          }).join('')+'</div>':'');
+      Array.prototype.forEach.call(d.querySelectorAll('.gw-wd'),function(b){
+        b.addEventListener('click',function(){
+          var wd=+this.dataset.wd,ix=it.wdays.indexOf(wd);
+          if(ix>=0){
+            if(it.wdays.length===1)return; // keep at least one day
+            it.wdays.splice(ix,1);this.classList.remove('on');
+          }else{
+            it.wdays.push(wd);it.wdays.sort();this.classList.add('on');
+          }
+          save();
+        });
+      });
       Array.prototype.forEach.call(d.querySelectorAll('.gw-seg'),function(seg){
         var tp=seg.dataset.t;
         Array.prototype.forEach.call(seg.querySelectorAll('button'),function(b){
@@ -1108,7 +1127,8 @@
     live.forEach(function(it){
       var d=document.createElement('div');d.className='gw-arow';
       var when=it.cadence==='daily'?'every day'
-        :it.cadence==='weekly'?'pick the days':'once this month';
+        :it.cadence==='weekly'?(it.wdays||[1]).slice().sort().map(function(i){return WDAYN[i].slice(0,3)}).join(' ')
+        :'once this month';
       var h='<div class="gw-atop"><div class="gw-atext">'+esc(it.text)+
         '<small>'+esc(it.owner==='both'?'shared':nm(it.owner))+' · '+when+'</small></div></div>'+
         '<div class="gw-slotrow">'+
@@ -1120,32 +1140,12 @@
         h+='</select>';
       }
       h+='</div>';
-      if(it.cadence==='weekly'){
-        h+='<div class="gw-wdays" role="group" aria-label="Days of the week">';
-        WDAYN.forEach(function(n,i){
-          h+='<button type="button" class="gw-wd'+
-            (it.wdays.indexOf(i)>=0?' on':'')+'" data-wd="'+i+'">'+n.slice(0,3)+'</button>';
-        });
-        h+='</div>';
-      }
       d.innerHTML=h;
       Array.prototype.forEach.call(d.querySelectorAll('[data-f]'),function(el){
         var f=el.dataset.f;
         if(it[f]!==''&&it[f]!==undefined&&it[f]!==null)el.value=it[f];
         el.addEventListener('change',function(){it[f]=this.value;save()});
         el.addEventListener('input',function(){it[f]=this.value;save()});
-      });
-      Array.prototype.forEach.call(d.querySelectorAll('.gw-wd'),function(b){
-        b.addEventListener('click',function(){
-          var wd=+this.dataset.wd,ix=it.wdays.indexOf(wd);
-          if(ix>=0){
-            if(it.wdays.length===1)return; // keep at least one day
-            it.wdays.splice(ix,1);this.classList.remove('on');
-          }else{
-            it.wdays.push(wd);it.wdays.sort();this.classList.add('on');
-          }
-          save();
-        });
       });
       host.appendChild(d);
     });
